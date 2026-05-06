@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>simple.lib</groupId>
+  <artifactId>hardwarelib</artifactId>
+  <versioning>
+    <lastUpdated>20260506142807</lastUpdated>
+    <snapshot>
+      <timestamp>20260506.142807</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>2026.0.1-20260506.142807-1</value>
+        <updated>20260506142807</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>2026.0.1-SNAPSHOT</version>
+</metadata>

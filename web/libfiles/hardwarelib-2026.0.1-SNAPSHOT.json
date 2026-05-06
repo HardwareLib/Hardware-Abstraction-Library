@@ -1,0 +1,24 @@
+{
+    "fileName": "hardwarelib-2026.0.1-SNAPSHOT.json",
+    "name": "Hardware Abstraction Library",
+    "version": "2026.0.1-SNAPSHOT",
+    "uuid": "29175ccf-d838-43f6-a0d7-5b995a64cdec",
+    "frcYear": "2026",
+    "mavenUrls": [
+        "HardwareLib.github.io/maven/snapshot"
+    ],
+    "jsonUrl": "",
+    "javaDependencies": [
+        {
+            "groupId": "simple.lib",
+            "artifactId": "hardwarelib",
+            "version": "2026.0.1-SNAPSHOT"
+        }
+    ],
+    "jniDependencies": [
+        
+    ],
+    "cppDependencies": [
+        
+    ]
+}

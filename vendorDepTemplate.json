@@ -1,0 +1,18 @@
+{
+  "fileName": "blank.json",
+  "name": "blank",
+  "version": "1.0.0",
+  "uuid": "29175ccf-d838-43f6-a0d7-5b995a64cdec",
+  "frcYear": "2026",
+  "mavenUrls": [],
+  "jsonUrl": "",
+  "javaDependencies": [
+    {
+      "groupId": "edu.wpi.first.wpilibNewCommands",
+      "artifactId": "wpilibNewCommands-java",
+      "version": "wpilib"
+    }
+  ],
+  "jniDependencies": [],
+  "cppDependencies": []
+}
