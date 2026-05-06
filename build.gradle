@@ -130,7 +130,7 @@ publishing {
 
     repositories {
         maven {
-            url = (tVersion == versionType.Snapshot) ? "./web/maven/snapshot" : "./web/maven/release"
+            url = (tVersion == versionType.Snapshot) ? "./docs/maven/snapshot" : "./docs/maven/release"
         }
     }
 }
@@ -156,7 +156,7 @@ tasks.register('createVendorDepFile') {
 
         println(templateJson.version)
 
-        def outputFile = new File("./web/libfiles/"+jsonName);
+        def outputFile = new File("./docs/libfiles/"+jsonName);
         if (!outputFile.createNewFile()) {
             outputFile.delete();
             outputFile.createNewFile();
