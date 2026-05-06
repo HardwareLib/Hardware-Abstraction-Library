@@ -138,6 +138,7 @@ publishing {
 
 tasks.register('createVendorDepFile') {
     group = "WPILib Utilities"
+    dependsOn("publish")
     doLast {
         def jsonName = projectArtifact+'-'+yearVersion+".json"
         def templateJson = new JsonSlurper().parse(new File("vendorDepTemplate.json"))

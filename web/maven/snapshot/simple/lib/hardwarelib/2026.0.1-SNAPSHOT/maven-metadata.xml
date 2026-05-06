@@ -3,16 +3,16 @@
   <groupId>simple.lib</groupId>
   <artifactId>hardwarelib</artifactId>
   <versioning>
-    <lastUpdated>20260506142807</lastUpdated>
+    <lastUpdated>20260506221456</lastUpdated>
     <snapshot>
-      <timestamp>20260506.142807</timestamp>
-      <buildNumber>1</buildNumber>
+      <timestamp>20260506.221456</timestamp>
+      <buildNumber>3</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>2026.0.1-20260506.142807-1</value>
-        <updated>20260506142807</updated>
+        <value>2026.0.1-20260506.221456-3</value>
+        <updated>20260506221456</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
