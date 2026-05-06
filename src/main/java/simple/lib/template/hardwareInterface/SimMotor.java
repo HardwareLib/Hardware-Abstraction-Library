@@ -73,6 +73,10 @@ public class SimMotor implements MotorInterface {
                     }
                     sim.setInputVoltage(pid.calculate(sim.getAngularVelocityRadPerSec()) + ff.calculate(activeControl.output) + kG);
                     break;
+                case VelocityProfiled:
+                    break;
+                case PositionProfiled:
+                    break;
             }
         }
 

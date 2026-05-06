@@ -89,6 +89,8 @@ public class Control {
             case PositionProfiled, Position:
                 this.type = profiled ? ControlType.PositionProfiled : ControlType.Position;
                 break;
+            default:
+                break;
         }
         return this;
     }

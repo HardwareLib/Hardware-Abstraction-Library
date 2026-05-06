@@ -1,9 +1,7 @@
 package simple.lib.controls;
 
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 
-import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 public class ProfiledVelocityControl extends Control {

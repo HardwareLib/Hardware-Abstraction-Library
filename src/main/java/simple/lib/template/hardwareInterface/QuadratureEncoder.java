@@ -12,12 +12,10 @@ import static edu.wpi.first.units.Units.Seconds;
 
 public class QuadratureEncoder implements EncoderInterface {
     Encoder quadrature;
-    private EncoderConfig config;
     private AngleUnit baseUnit;
     private Angle offset;
     public QuadratureEncoder(int apin, EncoderConfig config) {
         quadrature = new Encoder(apin, config.bPin);
-        this.config = config;
         baseUnit = config.defaultUnit;
         offset = config.offset;
     }
@@ -27,7 +25,6 @@ public class QuadratureEncoder implements EncoderInterface {
      */
     @Override
     public void configure(EncoderConfig config) {
-        this.config = config;
         baseUnit = config.defaultUnit;
         offset = config.offset;
     }

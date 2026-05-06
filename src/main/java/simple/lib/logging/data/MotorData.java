@@ -1,7 +1,6 @@
 package simple.lib.logging.data;
 
 import edu.wpi.first.units.*;
-import edu.wpi.first.units.measure.*;
 import simple.lib.logging.entry.BooleanEntry;
 import simple.lib.logging.entry.DoubleEntry;
 import simple.lib.logging.entry.Entry;
@@ -11,6 +10,7 @@ import java.util.Map;
 
 import static edu.wpi.first.units.Units.*;
 
+@SuppressWarnings("rawtypes")
 public class MotorData extends BaseData {
     public BooleanEntry connected = new BooleanEntry(false);
     public BooleanEntry alive = new BooleanEntry(false);

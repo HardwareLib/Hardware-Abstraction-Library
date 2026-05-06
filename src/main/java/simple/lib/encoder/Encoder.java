@@ -3,10 +3,10 @@ package simple.lib.encoder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import simple.lib.LibraryRegistry;
+import simple.lib.LibraryRegistry.LibraryType;
 import simple.lib.encoder.util.EncoderConfig;
 import simple.lib.encoder.util.EncoderInterface;
-import simple.lib.template.hardwareInterface.PWMEncoder;
-import simple.lib.template.hardwareInterface.QuadratureEncoder;
 
 import static edu.wpi.first.units.Units.Radians;
 
@@ -14,41 +14,36 @@ public class Encoder {
     public enum EncoderType {
         CANCoder,
         CANAndMag,
+        Helium,
         PWM,
         Quadrature
     }
 
-    private int id;
-    private EncoderType type;
-    private EncoderConfig config;
     private EncoderInterface encoderInterface;
 
+    @SuppressWarnings("unchecked")
     public Encoder(int id, EncoderType type, EncoderConfig config) {
-        this.id  = id;
-        this.type = type;
-        this.config = config;
-
-        switch (type) {
-            case PWM:
-                this.encoderInterface = new PWMEncoder(id,config);
-                break;
-            case CANCoder:
-                // CTRE CANCoder
-                break;
-            case CANAndMag:
-                // CANAndMag
-                break;
-            case Quadrature:
-                // Quadrature Encoder
-                this.encoderInterface = new QuadratureEncoder(id,config);
-                break;
-            default:
-                break;
+        Class<EncoderInterface> interfaceClass;
+        try {
+            interfaceClass = (Class<EncoderInterface>) ClassLoader.getSystemClassLoader().loadClass(LibraryRegistry.getOverrideOrDefault(LibraryType.Encoder,type.toString()));
+            if (interfaceClass != null) {
+                encoderInterface = interfaceClass.getConstructor(int.class, EncoderConfig.class).newInstance(id,config);
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            switch (type) {
+                case CANCoder:
+                    throw new Error("Fatal Error: You must install both the Phoenix 6 Library, and the Unofficial Phoenix 6 Abstraction Library");
+                case Helium, CANAndMag:
+                    throw new Error("Fatal Error: You must install both ReduxLib, and the Unofficial Redux Robotics Abstraction Library");
+                case PWM,Quadrature:
+                    throw new Error("Fatal Error: Something has gone wrong please contact the owner of the library to help fix this.");
+            }
         }
     }
 
     public void configure(EncoderConfig config) {
-        this.config = config;
         encoderInterface.configure(config);
     }
 

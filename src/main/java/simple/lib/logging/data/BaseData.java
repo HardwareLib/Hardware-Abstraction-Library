@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static edu.wpi.first.units.Units.*;
 
+@SuppressWarnings("rawtypes")
 public class BaseData {
     public Map<String, Entry> getData() {
         return Map.of();
