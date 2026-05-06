@@ -142,7 +142,7 @@ tasks.register('createVendorDepFile') {
     doLast {
         def jsonName = projectArtifact+'-'+yearVersion+".json"
         def templateJson = new JsonSlurper().parse(new File("vendorDepTemplate.json"))
-        def mavenWebLocat = "HardwareLib.github.io/maven/" + ((tVersion == versionType.Snapshot) ? "snapshot" : "release")
+        def mavenWebLocat = "https://hardwarelib.github.io/maven/" + ((tVersion == versionType.Snapshot) ? "snapshot" : "release")
         templateJson.fileName = jsonName
         templateJson.name = 'Hardware Abstraction Library'
         templateJson.frcYear = year
@@ -150,6 +150,7 @@ tasks.register('createVendorDepFile') {
         templateJson.mavenUrls = [
                 mavenWebLocat
         ]
+        templateJson.jsonUrl = "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/"+jsonName
         templateJson.javaDependencies[0].groupId = projectId
         templateJson.javaDependencies[0].artifactId=projectArtifact
         templateJson.javaDependencies[0].version=yearVersion

@@ -4,12 +4,14 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.*;
+import simple.lib.LibraryRegistry;
 import simple.lib.controls.Control;
 import simple.lib.logging.data.MotorData;
 import simple.lib.motor.util.MotorConfig;
 import simple.lib.motor.util.MotorInterface;
 import simple.lib.template.hardwareInterface.SimMotor;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -72,16 +74,19 @@ public class Motor extends SubsystemBase {
         configure(this.config);
         this.id = id;
         Class<MotorInterface> interfaceClass;
+        String className;
         try {
             switch (controller) {
                 case TalonFX:
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "TalonFX"), "noOverride") ? "simple.phoenix6.hardware.TalonFX" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"TalonFX");
                     // Add TalonFX Interface
-                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass("simple.phoenix6.hardware.TalonFX");
+                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass(className);
                     if (interfaceClass != null) {
                         motorInterface = interfaceClass.getConstructor(int.class, MotorConfig.class).newInstance(id,config);
                     }
                     break;
                 case TalonFXS:
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "TalonFXS"), "noOverride") ? "simple.phoenix6.hardware.TalonFXS" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"TalonFXS");
                     // Add TalonFXS Interface
                     interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass("simple.phoenix6.hardware.TalonFXS");
                     if (interfaceClass != null) {
@@ -89,42 +94,55 @@ public class Motor extends SubsystemBase {
                     }
                     break;
                 case TalonSRX:
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "TalonSRX"), "noOverride") ? "simple.phoenix5.hardware.TalonSRX" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"TalonSRX");
                     // Add TalonSRX Interface
-                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass("simple.phoenix5.hardware.TalonSRX");
+                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass(className);
                     if (interfaceClass != null) {
                         motorInterface = interfaceClass.getConstructor(int.class, MotorConfig.class).newInstance(id,config);
                     }
                     break;
                 case SparkMax:
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "SparkMax"), "noOverride") ? "simple.revrobotics.hardware.SparkMax" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"SparkMax");
                     // Add SparkMax Interface
-                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass("simple.revrobotics.hardware.SparkMax");
+                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass(className);
                     if (interfaceClass != null) {
                         motorInterface = interfaceClass.getConstructor(int.class, MotorConfig.class).newInstance(id,config);
                     }
                     break;
                 case SparkFlex:
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "SparkFlex"), "noOverride") ? "simple.revrobotics.hardware.SparkFlex" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"SparkFlex");
                     // Add SparkFlex Interface
-                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass("simple.revrobotics.hardware.SparkFlex");
+                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass(className);
                     if (interfaceClass != null) {
                         motorInterface = interfaceClass.getConstructor(int.class, MotorConfig.class).newInstance(id,config);
                     }
                     break;
                 case Nitrate:
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "Nitrate"), "noOverride") ? "simple.reduxrobotics.hardware.Nitrate" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"Nitrate");
                     // Add Nitrate Interface
-                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass("simple.reduxrobotics.hardware.Nitrate");
+                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass(className);
                     if (interfaceClass != null) {
                         motorInterface = interfaceClass.getConstructor(int.class, MotorConfig.class).newInstance(id,config);
                     }
                     break;
                 case Nova:
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "Nova"), "noOverride") ? "simple.thrifty.hardware.Nova" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"Nova");
                     // Add Nova Interface
-                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass("simple.thrifty.hardware.Nova");
+                    interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass(className);
                     if (interfaceClass != null) {
                         motorInterface = interfaceClass.getConstructor(int.class, MotorConfig.class).newInstance(id,config);
                     }
                     break;
                 case Sim:
-                    motorInterface = new SimMotor(id,config,motor);
+                    className = Objects.equals(LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "Sim"), "noOverride") ? "simple.lib.template.hardwareInterface.SimMotor" : LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor,"Sim");
+                    if (LibraryRegistry.getOverride(LibraryRegistry.LibraryType.Motor, "Sim").equals("noOverride")) {
+                        motorInterface = new SimMotor(id,config,motor);
+                    } else {
+                        interfaceClass = (Class<MotorInterface>) ClassLoader.getSystemClassLoader().loadClass(className);
+                        if (interfaceClass != null) {
+                            motorInterface = interfaceClass.getConstructor(int.class, MotorConfig.class, DCMotor.class).newInstance(id,config,motor);
+                        }
+                    }
                     break;
             }
         }
