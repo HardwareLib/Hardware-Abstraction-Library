@@ -110,7 +110,7 @@ tasks.withType(JavaCompile) {
 }
 
 def year = new JsonSlurper().parse(new File('./.wpilib/wpilib_preferences.json')).projectYear;
-def projectVersion = '0.1'
+def projectVersion = '0.2'
 enum versionType {
     Snapshot,
     Release
