@@ -6,15 +6,13 @@ public class LibraryRegistry {
     public enum LibraryType {
         Motor,
         Encoder,
-        Gyro,
-        Logger
+        Gyro
     }
 
     private static Map<LibraryType, Map<String, String>> libraryMap = Map.of(
             LibraryType.Motor, Map.of(),
             LibraryType.Encoder, Map.of(),
-            LibraryType.Gyro, Map.of(),
-            LibraryType.Logger, Map.of());
+            LibraryType.Gyro, Map.of());
 
     private static Map<LibraryType, Map<String, String>> defaultLibraries = Map.of(
             LibraryType.Motor, Map.of(
@@ -35,12 +33,12 @@ public class LibraryRegistry {
                 "Quadrature", "simple.lib.template.hardwareInterface.QuadratureEncoder"
             ),
             LibraryType.Gyro, Map.of(
-                "Pidgeon2", "",
-                "CanAndGyro", "",
-                "NavX3", "",
-                "NavX2MXP", ""
-            ),
-            LibraryType.Logger, Map.of());
+                    "Pidgeon2", "simple.phoenix6.hardware.Pidgeon2",
+                    "CanAndGyro", "simple.reduxrobotics.hardware.CanAndGyro",
+                    "Boron", "simple.reduxrobotics.hardware.CanAndGyro",
+                    "NavX3", "simple.studica_can.hardware.navx3",
+                    "NavX_MXP",  "simple.studica_mxp.hardware.navx_mxp"
+            ));
 
     public static String getOverride(LibraryType type, String interfaceName) {
         return libraryMap.get(type).getOrDefault(interfaceName, "noOverride");

@@ -133,7 +133,7 @@ public class Motor extends SubsystemBase {
             motorInterface.configure(config);
         } else {
            throw new RuntimeException("Failed to Configure Motor with id of "+this.id+" check if you are instantiating it correctly.");
-       }
+        }
    }
 
    @Override
@@ -177,11 +177,9 @@ public class Motor extends SubsystemBase {
 
     public void setControl(Control control, int slot, boolean overrideFollow) {
         following = !overrideFollow;
-        if (!this.activeControl.equals(control)) {
-            motorInterface.setControl(control.output,control.type, slot);
-            control.slot = slot;
-            this.activeControl = control;
-        }
+        motorInterface.setControl(control.output,control.type, slot);
+        control.slot = slot;
+        this.activeControl = control;
     }
 
     /**

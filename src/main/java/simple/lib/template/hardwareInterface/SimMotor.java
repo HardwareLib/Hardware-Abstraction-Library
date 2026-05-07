@@ -8,6 +8,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import simple.lib.controls.Control;
 import simple.lib.logging.data.MotorData;
 import simple.lib.motor.util.MotorConfig;
@@ -31,7 +32,7 @@ public class SimMotor implements MotorInterface {
         ff = new SimpleMotorFeedforward(config.PID_Config.slot0.kS,config.PID_Config.slot0.kV,config.PID_Config.slot0.kA);
         profiledPid = new ProfiledPIDController(config.PID_Config.slot0.kP,config.PID_Config.slot0.kI,config.PID_Config.slot0.kD, new TrapezoidProfile.Constraints(config.PID_Config.motionProfile.maxVelocity,config.PID_Config.motionProfile.maxAcceleration),0.02);
         this.config = config;
-        sim = new DCMotorSim(LinearSystemId.createDCMotorSystem(motor,0.04,config.outputConfig.sensorToMechanismRatio),motor);
+        sim = new DCMotorSim(LinearSystemId.createDCMotorSystem(motor,0.035,config.outputConfig.sensorToMechanismRatio),motor);
     }
 
     @Override
@@ -79,8 +80,8 @@ public class SimMotor implements MotorInterface {
                     break;
             }
         }
-
         sim.update(0.020);
+        SmartDashboard.putData(pid);
     }
 
     /**

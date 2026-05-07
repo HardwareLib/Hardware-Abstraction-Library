@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,20 +18,24 @@ import simple.lib.controls.PositionControl;
 import simple.lib.motor.Motor;
 import simple.lib.motor.Motor.MotorController;
 import simple.lib.motor.util.MotorConfig;
+import simple.lib.motor.util.MotorConfig.PID.FeedbackSource;
+import simple.lib.motor.util.MotorConfig.PID.GravityCompensationType;
 
 public class ExampleSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   Motor motor;
   PositionControl control = new PositionControl(Radians.zero());
-  MotorConfig config;
   public ExampleSubsystem() {
-    config = new MotorConfig();
-    config.PID_Config.slot0.kP = 2.0;
-    motor = new Motor(0, config, MotorController.Sim);
+    MotorConfig config = new MotorConfig();
+    config.PID_Config.slot0.kP = 1.0;
+    config.PID_Config.slot0.kD = 0.0;
+    config.PID_Config.feedbackSource = FeedbackSource.InternalEncoder;
+    config.PID_Config.gravityCompensationType = GravityCompensationType.ELEVATOR_STATIC;
+    motor = new Motor(0, config, MotorController.TalonFX, DCMotor.getKrakenX60Foc(1));
   }
   
   public Command setPosition(Angle position) {
-    return this.run(() -> {
+    return this.runOnce(() -> {
       motor.setControl(control.withPosition(position));
     });
   }
@@ -51,5 +56,12 @@ public class ExampleSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Target Position", motor.getActiveControl().position.in(Radians));
     SmartDashboard.putNumber("Target Velocity", motor.getActiveControl().velocity.in(RadiansPerSecond));
     SmartDashboard.putNumber("Example Voltage", motor.getData().voltage.getValue().in(Volts));
+    SmartDashboard.putNumber("Motor kP", motor.getConfig().PID_Config.slot0.kP);
+    SmartDashboard.putNumber("Motor kI", motor.getConfig().PID_Config.slot0.kI);
+    SmartDashboard.putNumber("Motor kD", motor.getConfig().PID_Config.slot0.kD);
+    SmartDashboard.putNumber("Motor kS", motor.getConfig().PID_Config.slot0.kS);
+    SmartDashboard.putNumber("Motor kV", motor.getConfig().PID_Config.slot0.kV);
+    SmartDashboard.putNumber("Motor kA", motor.getConfig().PID_Config.slot0.kA);
+    SmartDashboard.putNumber("Motor kG", motor.getConfig().PID_Config.slot0.kG);
   }
 }
