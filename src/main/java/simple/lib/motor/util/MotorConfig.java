@@ -36,7 +36,7 @@ public class MotorConfig {
 
         public FeedbackSource feedbackSource = FeedbackSource.InternalEncoder;
         public Encoder externalEncoder = null;
-
+        public boolean continousWrap = false;
         public GravityCompensationType gravityCompensationType = GravityCompensationType.ELEVATOR_STATIC;
         public MotionProfilingConfig motionProfile = new MotionProfilingConfig();
         public SlotConfig slot0 = new SlotConfig();
@@ -53,7 +53,27 @@ public class MotorConfig {
             ClockWisePositive
         }
         public OutputDirection outputDirection = OutputDirection.ClockWisePositive;
+
+        public enum NeutralMode {
+            Brake,
+            Coast
+        }
+        public NeutralMode neutralMode = NeutralMode.Coast;
     }
 
     public OutputConfig outputConfig = new OutputConfig();
+
+    public static class CurrentLimits {
+        public int maxStator = 60;
+        public int maxSupply = 40;
+    }
+
+    public CurrentLimits currentLimits = new CurrentLimits();
+
+    public static class VoltageLimits {
+        public double minVoltage = -12;
+        public double maxVoltage = 12;
+    }
+
+    public VoltageLimits voltageLimits = new VoltageLimits();
 }

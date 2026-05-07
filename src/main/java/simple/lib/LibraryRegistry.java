@@ -16,13 +16,13 @@ public class LibraryRegistry {
 
     private static Map<LibraryType, Map<String, String>> defaultLibraries = Map.of(
             LibraryType.Motor, Map.of(
-                "TalonFX", "simple.phoenix6.hardware.TalonFX",
-                "TalonFXS", "simple.phoenix6.hardware.TalonFXS",
-                "TalonSRX", "simple.phoenix5.hardware.TalonSRX",
-                "SparkMax", "simple.revrobotics.hardware.SparkMax",
-                "SparkFlex", "simple.revrobotics.hardware.SparkFlex",
-                "Nitrate", "simple.reduxrobotics.hardware.Nitrate",
-                "Nova", "simple.thrifty.hardware.Nova",
+                "TalonFX", "simple.phoenix6.hardware.TalonFXInterface",
+                "TalonFXS", "simple.phoenix6.hardware.TalonFXSInterface",
+                "TalonSRX", "simple.phoenix5.hardware.TalonSRXInterface",
+                "SparkMax", "simple.revrobotics.hardware.SparkMaxInterface",
+                "SparkFlex", "simple.revrobotics.hardware.SparkFlexInterface",
+                "Nitrate", "simple.reduxrobotics.hardware.NitrateInterface",
+                "Nova", "simple.thrifty.hardware.NovaInterface",
                 "Sim", "simple.lib.template.hardwareInterface.SimMotor"
             ),
             LibraryType.Encoder, Map.of(
