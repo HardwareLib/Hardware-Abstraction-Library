@@ -110,12 +110,12 @@ tasks.withType(JavaCompile) {
 }
 
 def year = new JsonSlurper().parse(new File('./.wpilib/wpilib_preferences.json')).projectYear;
-def projectVersion = '0.4'
+def projectVersion = '0.5'
 enum versionType {
     Snapshot,
     Release
 }
-versionType tVersion = versionType.Snapshot;
+versionType tVersion = versionType.Release;
 def yearVersion = (year+'.'+projectVersion)+((tVersion == versionType.Snapshot) ? ('-SNAPSHOT') : '')
 def projectId = 'simple.lib'
 def projectArtifact = 'hardwarelib'
