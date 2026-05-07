@@ -1,9 +1,6 @@
-import groovy.json.*;
-
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2026.2.1"
-    id "maven-publish"
+    id "edu.wpi.first.GradleRIO" version "2026.1.1"
 }
 
 java {
@@ -107,63 +104,4 @@ wpi.java.configureTestTasks(test)
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
-}
-
-def year = new JsonSlurper().parse(new File('./.wpilib/wpilib_preferences.json')).projectYear;
-def projectVersion = '0.3'
-enum versionType {
-    Snapshot,
-    Release
-}
-versionType tVersion = versionType.Snapshot;
-def yearVersion = (year+'.'+projectVersion)+((tVersion == versionType.Snapshot) ? ('-SNAPSHOT') : '')
-def projectId = 'simple.lib'
-def projectArtifact = 'hardwarelib'
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = projectId
-            artifactId = projectArtifact
-            version=yearVersion
-            from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            url = (tVersion == versionType.Snapshot) ? "./docs/maven/snapshot" : "./docs/maven/release"
-        }
-    }
-}
-
-
-tasks.register('createVendorDepFile') {
-    group = "WPILib Utilities"
-    dependsOn("publish")
-    doLast {
-        def jsonName = projectArtifact+'-'+yearVersion+".json"
-        def templateJson = new JsonSlurper().parse(new File("vendorDepTemplate.json"))
-        def mavenWebLocat = "https://hardwarelib.github.io/maven/" + ((tVersion == versionType.Snapshot) ? "snapshot" : "release")
-        templateJson.fileName = jsonName
-        templateJson.name = 'Hardware Abstraction Library'
-        templateJson.frcYear = year
-        templateJson.version = yearVersion
-        templateJson.mavenUrls = [
-                mavenWebLocat
-        ]
-        templateJson.jsonUrl = "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/"+jsonName
-        templateJson.javaDependencies[0].groupId = projectId
-        templateJson.javaDependencies[0].artifactId=projectArtifact
-        templateJson.javaDependencies[0].version=yearVersion
-
-        println(templateJson.version)
-
-        def outputFile = new File("./docs/libfiles/"+jsonName);
-        if (!outputFile.createNewFile()) {
-            outputFile.delete();
-            outputFile.createNewFile();
-        }
-        outputFile.setText(JsonOutput.prettyPrint(JsonOutput.toJson(templateJson)))
-        println(JsonOutput.prettyPrint(JsonOutput.toJson(templateJson)))
-    }
 }

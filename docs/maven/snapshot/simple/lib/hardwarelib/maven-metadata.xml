@@ -3,11 +3,12 @@
   <groupId>simple.lib</groupId>
   <artifactId>hardwarelib</artifactId>
   <versioning>
-    <latest>2026.0.2-SNAPSHOT</latest>
+    <latest>2026.0.3-SNAPSHOT</latest>
     <versions>
       <version>2026.0.1-SNAPSHOT</version>
       <version>2026.0.2-SNAPSHOT</version>
+      <version>2026.0.3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20260507000708</lastUpdated>
+    <lastUpdated>20260507001920</lastUpdated>
   </versioning>
 </metadata>
