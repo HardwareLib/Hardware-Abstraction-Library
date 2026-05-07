@@ -70,7 +70,6 @@ public class Motor extends SubsystemBase {
     @SuppressWarnings("unchecked")
     public Motor(int id, MotorConfig config, MotorController controller, DCMotor motor) {
         this.config = config;
-        configure(this.config);
         this.id = id;
         Class<MotorInterface> interfaceClass;
         try {
@@ -100,6 +99,7 @@ public class Motor extends SubsystemBase {
                     throw new Error("Fatal Error: Something has gone wrong please contact the owner of the library to help fix this.");
             }
         }
+        configure(this.config);
     }
 
     /**

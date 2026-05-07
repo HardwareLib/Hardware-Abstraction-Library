@@ -3,26 +3,26 @@
   <groupId>simple.lib</groupId>
   <artifactId>hardwarelib</artifactId>
   <versioning>
-    <lastUpdated>20260507001912</lastUpdated>
+    <lastUpdated>20260507010922</lastUpdated>
     <snapshot>
-      <timestamp>20260507.001912</timestamp>
-      <buildNumber>1</buildNumber>
+      <timestamp>20260507.010922</timestamp>
+      <buildNumber>2</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
-        <extension>module</extension>
-        <value>2026.0.3-20260507.001912-1</value>
-        <updated>20260507001912</updated>
-      </snapshotVersion>
-      <snapshotVersion>
         <extension>jar</extension>
-        <value>2026.0.3-20260507.001912-1</value>
-        <updated>20260507001912</updated>
+        <value>2026.0.3-20260507.010922-2</value>
+        <updated>20260507010922</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>2026.0.3-20260507.001912-1</value>
-        <updated>20260507001912</updated>
+        <value>2026.0.3-20260507.010922-2</value>
+        <updated>20260507010922</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>module</extension>
+        <value>2026.0.3-20260507.010922-2</value>
+        <updated>20260507010922</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
