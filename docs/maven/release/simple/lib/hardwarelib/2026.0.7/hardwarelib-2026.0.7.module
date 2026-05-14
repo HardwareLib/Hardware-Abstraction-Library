@@ -27,11 +27,11 @@
         {
           "name": "hardwarelib-2026.0.7.jar",
           "url": "hardwarelib-2026.0.7.jar",
-          "size": 6820262,
-          "sha512": "50421c6ccfcd2ab0a707a96471d327725079330cceb89b44ea2219925d9224c73dd6febed2b439b4d668e59bad97c523c9894015e015ce37e2a496960592a49f",
-          "sha256": "802951e1a6871dd4eab88dcdab7eeef43281ea09d64de8be0066d5e6feff6dae",
-          "sha1": "690a2b15ae96f576f49482a9db5ce4b7cda5b87d",
-          "md5": "9959acafef18ef1f082fe964be36a80b"
+          "size": 6607167,
+          "sha512": "da30fd1ebcf73576a2c16013769c376c888f18d622f0480ce1d00564596aa7b0203a434effcce47ff33bddacdbb071880b86ec5a81637eceeeee773c52489ed4",
+          "sha256": "913b39cfc10572e3f6ec98a87c3b1a414160ed173cdb4103c94167d36cf7f70c",
+          "sha1": "c90f6fdc3deb2e5ff33344e1045ac17edcf7815e",
+          "md5": "817fd171d0561b7c57d391ff6dacd4a7"
         }
       ]
     },
@@ -170,24 +170,17 @@
           "version": {
             "requires": "2026.2.1"
           }
-        },
-        {
-          "group": "org.littletonrobotics.akit",
-          "module": "akit-java",
-          "version": {
-            "requires": "26.0.2"
-          }
         }
       ],
       "files": [
         {
           "name": "hardwarelib-2026.0.7.jar",
           "url": "hardwarelib-2026.0.7.jar",
-          "size": 6820262,
-          "sha512": "50421c6ccfcd2ab0a707a96471d327725079330cceb89b44ea2219925d9224c73dd6febed2b439b4d668e59bad97c523c9894015e015ce37e2a496960592a49f",
-          "sha256": "802951e1a6871dd4eab88dcdab7eeef43281ea09d64de8be0066d5e6feff6dae",
-          "sha1": "690a2b15ae96f576f49482a9db5ce4b7cda5b87d",
-          "md5": "9959acafef18ef1f082fe964be36a80b"
+          "size": 6607167,
+          "sha512": "da30fd1ebcf73576a2c16013769c376c888f18d622f0480ce1d00564596aa7b0203a434effcce47ff33bddacdbb071880b86ec5a81637eceeeee773c52489ed4",
+          "sha256": "913b39cfc10572e3f6ec98a87c3b1a414160ed173cdb4103c94167d36cf7f70c",
+          "sha1": "c90f6fdc3deb2e5ff33344e1045ac17edcf7815e",
+          "md5": "817fd171d0561b7c57d391ff6dacd4a7"
         }
       ]
     }

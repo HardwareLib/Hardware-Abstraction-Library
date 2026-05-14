@@ -145,7 +145,7 @@ tasks.register('createVendorDepFile') {
     doLast {
         def jsonName = projectArtifact+'-'+yearVersion+".json"
         def templateJson = new JsonSlurper().parse(new File("vendorDepTemplate.json"))
-        def mavenWebLocat = "https://hardwarelib.github.io/maven/Hardware-Abstraction-Library/" + ((tVersion == versionType.Snapshot) ? "snapshot" : "release")
+        def mavenWebLocat = "https://hardwarelib.github.io/Hardware-Abstraction-Library/maven/" + ((tVersion == versionType.Snapshot) ? "snapshot" : "release")
         templateJson.fileName = jsonName
         templateJson.name = 'Hardware Abstraction Library'
         templateJson.frcYear = year
@@ -175,20 +175,20 @@ tasks.register('publishLibrary') {
     dependsOn("createVendorDepFile")
 
     doLast {
-        exec {
+        providers.exec {
             workingDir(projectDir)
             executable 'git'
             args 'add', '-A'
         }
 
-        exec {
+        providers.exec {
             workingDir(projectDir)
             executable 'git'
             args 'commit', '-m', ('"'+yearVersion+' publish"')
             ignoreExitValue = true
         }
 
-        exec {
+        providers.exec {
             workingDir(projectDir)
             executable 'git'
             args 'push', 'origin'

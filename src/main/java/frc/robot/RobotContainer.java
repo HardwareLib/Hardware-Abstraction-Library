@@ -8,10 +8,7 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
-import org.littletonrobotics.junction.AutoLogOutput;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -38,21 +35,6 @@ public class RobotContainer {
     config.setModulePositions();
     drive = new SwerveDrive(config);
     configureBindings();
-  }
-
-  @AutoLogOutput(key = "Drive/Pose")
-  public Pose2d getRobotPose() {
-    return drive.getPose();
-  }
-
-  @AutoLogOutput(key = "Drive/Actual States")
-  public SwerveModuleState[] getSwerveStates() {
-    return drive.getStates();
-  }
-
-  @AutoLogOutput(key = "Drive/Intended States")
-  public SwerveModuleState[] getIntendedStates() {
-    return drive.getIntendedStates();
   }
  
   private void configureBindings() {
