@@ -110,15 +110,17 @@ tasks.withType(JavaCompile) {
 }
 
 def year = new JsonSlurper().parse(new File('./.wpilib/wpilib_preferences.json')).projectYear;
-def projectVersion = '0.6'
+def packageJson = new JsonSlurper().parse(new File('package.json'));
+def projectVersion = packageJson.version;
 enum versionType {
     Snapshot,
     Release
 }
 versionType tVersion = versionType.Release;
 def yearVersion = (year+'.'+projectVersion)+((tVersion == versionType.Snapshot) ? ('-SNAPSHOT') : '')
-def projectId = 'simple.lib'
-def projectArtifact = 'hardwarelib'
+def projectId = packageJson.group;
+def projectArtifact = packageJson.artifact;
+def projectName = packageJson.name;
 publishing {
     publications {
         maven(MavenPublication) {
@@ -165,5 +167,18 @@ tasks.register('createVendorDepFile') {
         }
         outputFile.setText(JsonOutput.prettyPrint(JsonOutput.toJson(templateJson)))
         println(JsonOutput.prettyPrint(JsonOutput.toJson(templateJson)))
+    }
+}
+
+tasks.register('publishLibrary') {
+    group = "WPILib Utilities"
+    dependsOn("createVendorDepFile")
+    doLast {
+        sleep(2000);
+        "git add -A".execute();
+        sleep(2000);
+        ("git commit -a -m "+yearVersion+" publish").execute();
+        sleep(2000);
+        "git push origin"
     }
 }

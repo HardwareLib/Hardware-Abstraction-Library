@@ -12,6 +12,9 @@ import static edu.wpi.first.units.Units.*;
 @SuppressWarnings("rawtypes")
 public class BaseData {
     public Map<String, Entry> getData() {
+        return getData("");
+    }
+    public Map<String, Entry> getData(String prefix) {
         return Map.of();
     }
 

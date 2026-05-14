@@ -9,14 +9,14 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.TalonFXS;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
@@ -34,8 +34,8 @@ import simple.phoenix6.utility.PhoenixUtil;
 import simple.lib.motor.util.MotorInterface;
 
 /** Add your docs here. */
-public class TalonFXInterface implements MotorInterface {
-    private final TalonFX talon;
+public class TalonFXSInterface implements MotorInterface {
+    private final TalonFXS talon;
 
     private final StatusSignal<Voltage> appliedVoltage;
 
@@ -57,9 +57,9 @@ public class TalonFXInterface implements MotorInterface {
     private final VelocityVoltage velocityControl = new VelocityVoltage(RadiansPerSecond.zero());
     private final MotionMagicVelocityVoltage profiledVelocity = new MotionMagicVelocityVoltage(RadiansPerSecond.zero());
 
-    public TalonFXInterface(int id, MotorConfig config) {
-        talon = new TalonFX(id);
-        TalonFXConfiguration motorConfig = Phoenix6ConfigUtility.getTalonFXConfig(config);
+    public TalonFXSInterface(int id, MotorConfig config) {
+        talon = new TalonFXS(id);
+        TalonFXSConfiguration motorConfig = Phoenix6ConfigUtility.getTalonFXSConfig(config);
         PhoenixUtil.tryUntilOkay(() -> talon.getConfigurator().apply(motorConfig), 5);
 
         position = talon.getPosition();
@@ -98,7 +98,7 @@ public class TalonFXInterface implements MotorInterface {
 
     @Override
     public void configure(MotorConfig config) {
-        TalonFXConfiguration motorConfig = Phoenix6ConfigUtility.getTalonFXConfig(config);
+        TalonFXSConfiguration motorConfig = Phoenix6ConfigUtility.getTalonFXSConfig(config);
         PhoenixUtil.tryUntilOkay(() -> talon.getConfigurator().apply(motorConfig), 5);
     }
 
@@ -134,12 +134,12 @@ public class TalonFXInterface implements MotorInterface {
     }
 
     @Override
-    public void stop() {
-        talon.stopMotor();
+    public void setPosition(Angle newPosition) {
+        talon.setPosition(newPosition);
     }
 
     @Override
-    public void setPosition(Angle newPosition) {
-        talon.setPosition(newPosition);
+    public void stop() {
+        talon.stopMotor();
     }
 }

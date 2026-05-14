@@ -12,32 +12,34 @@ import static edu.wpi.first.units.Units.*;
 
 @SuppressWarnings("rawtypes")
 public class MotorData extends BaseData {
-    public BooleanEntry connected = new BooleanEntry(false);
-    public BooleanEntry alive = new BooleanEntry(false);
-    public UnitEntry<CurrentUnit> supplyCurrent = new UnitEntry<>(Amps.zero());
-    public UnitEntry<CurrentUnit> statorCurrent = new UnitEntry<>(Amps.zero());
-    public UnitEntry<CurrentUnit> torqueCurrent = new UnitEntry<>(Amps.zero());
+    public final BooleanEntry connected = new BooleanEntry(false);
+    public final BooleanEntry alive = new BooleanEntry(false);
+    public final UnitEntry<CurrentUnit> supplyCurrent = new UnitEntry<>(Amps.zero());
+    public final UnitEntry<CurrentUnit> statorCurrent = new UnitEntry<>(Amps.zero());
+    public final UnitEntry<CurrentUnit> torqueCurrent = new UnitEntry<>(Amps.zero());
 
-    public UnitEntry<TemperatureUnit> temperature = new UnitEntry<>(Celsius.zero());
+    public final UnitEntry<TemperatureUnit> temperature = new UnitEntry<>(Celsius.zero());
 
-    public UnitEntry<VoltageUnit> voltage = new UnitEntry<>(Volts.zero());
-    public UnitEntry<AngleUnit> position = new UnitEntry<>(Rotations.zero());
-    public UnitEntry<AngularVelocityUnit> velocity = new UnitEntry<>(RotationsPerSecond.zero());
-    public UnitEntry<AngularAccelerationUnit> acceleration = new UnitEntry<>(RotationsPerSecondPerSecond.zero());
-    public DoubleEntry output = new DoubleEntry(0.0);
+    public final UnitEntry<VoltageUnit> voltage = new UnitEntry<>(Volts.zero());
+    public final UnitEntry<AngleUnit> position = new UnitEntry<>(Rotations.zero());
+    public final UnitEntry<AngularVelocityUnit> velocity = new UnitEntry<>(RotationsPerSecond.zero());
+    public final UnitEntry<AngularAccelerationUnit> acceleration = new UnitEntry<>(RotationsPerSecondPerSecond.zero());
+    public final DoubleEntry output = new DoubleEntry(0.0);
 
     @Override
-    public Map<String, Entry> getData() {
-        return Map.of(
-                "Supply Current", supplyCurrent,
-                "Stator Current", statorCurrent,
-                "Torque Current", torqueCurrent,
-                "Temperature", temperature,
-                "Voltage", voltage,
-                "Position", position,
-                "Velocity", velocity,
-                "Acceleration", acceleration,
-                "Output", output
+    public Map<String, Entry> getData(String prefix) {
+        return Map.ofEntries(
+                Map.entry(prefix+"Connected", connected),
+                Map.entry(prefix+"Supply Current", supplyCurrent),
+                Map.entry(prefix+"Stator Current", statorCurrent),
+                Map.entry(prefix+"Torque Current", torqueCurrent),
+                Map.entry(prefix+"Temperature", temperature),
+                Map.entry(prefix+"Voltage", voltage),
+                Map.entry(prefix+"Position", position),
+                Map.entry(prefix+"Velocity", velocity),
+                Map.entry(prefix+"Acceleration", acceleration),
+                Map.entry(prefix+"Output", output),
+                Map.entry(prefix+"Alive", alive)
         );
     }
 }

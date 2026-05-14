@@ -9,6 +9,7 @@ import simple.lib.LibraryRegistry.LibraryType;
 import simple.lib.controls.Control;
 import simple.lib.logging.data.MotorData;
 import simple.lib.motor.util.MotorConfig;
+import simple.lib.motor.util.MotorConfig.FeedbackConfig.FeedbackSource;
 import simple.lib.motor.util.MotorInterface;
 import java.util.function.Supplier;
 
@@ -145,6 +146,9 @@ public class Motor extends SubsystemBase {
        }
        if (periodicDataCollection) {
             motorInterface.getData(data);
+       }
+       if (config.feedback.feedbackSource == FeedbackSource.FusedEncoder && config.feedback.fusedEncoder != null) {
+           motorInterface.setPosition(config.feedback.fusedEncoder.getPosition());
        }
    }
 

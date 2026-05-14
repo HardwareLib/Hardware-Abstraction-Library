@@ -3,6 +3,9 @@ package simple.lib.motor.util;
 import simple.lib.encoder.Encoder;
 
 public class MotorConfig {
+
+    public String canbus = ""; // Multiple CAN BUS support only for devices which support it, and 2027 season onwards
+    public double updateFrequency = 50.0; // Update Frequency for data from the motor. Only for devices which support it
     public static class PID {
         public static class SlotConfig {
             public double kP = 0.0;
@@ -19,11 +22,6 @@ public class MotorConfig {
             public double maxAcceleration = 0.0;
         }
 
-        public enum FeedbackSource {
-            InternalEncoder,
-            ExternalEncoder, // Externally Connected Controller
-            FusedController
-        }
 
         public enum GravityCompensationType {
             /** Static constant kG that is frequently used in Elevator mechanisms */
@@ -34,9 +32,6 @@ public class MotorConfig {
             ARM_SINE
         }
 
-        public FeedbackSource feedbackSource = FeedbackSource.InternalEncoder;
-        public Encoder externalEncoder = null;
-        public boolean continousWrap = false;
         public GravityCompensationType gravityCompensationType = GravityCompensationType.ELEVATOR_STATIC;
         public MotionProfilingConfig motionProfile = new MotionProfilingConfig();
         public SlotConfig slot0 = new SlotConfig();
@@ -47,7 +42,6 @@ public class MotorConfig {
     public PID PID_Config = new PID();
 
     public static class OutputConfig {
-        public double sensorToMechanismRatio = 1.0;
         public enum OutputDirection {
             CounterClockWisePositive,
             ClockWisePositive
@@ -76,4 +70,38 @@ public class MotorConfig {
     }
 
     public VoltageLimits voltageLimits = new VoltageLimits();
+
+    public static class FeedbackConfig {
+        public enum FeedbackSource {
+            InternalEncoder,
+            ExternalEncoder, // Externally Connected Controller
+            FusedEncoder,
+            /**USED for having TalonFX and FXS read from a CANCODER Only, and maybe Nitrate */
+            CanEncoder
+        }
+        public int encoderId = 0;
+        public Encoder fusedEncoder = null;
+
+        public void setFusedFeedbackSource(Encoder encoder) {
+            this.fusedEncoder = encoder;
+            this.feedbackSource = FeedbackSource.FusedEncoder;
+        }
+
+        public void setExternalCanSource(int encoderId) {
+            this.feedbackSource = FeedbackSource.CanEncoder;
+            this.encoderId = encoderId;
+        }
+
+        public void resetEncoderSettings() {
+            this.fusedEncoder = null;
+            this.feedbackSource = FeedbackSource.InternalEncoder;
+            this.encoderId = 0;
+        }
+
+        public FeedbackSource feedbackSource = FeedbackSource.InternalEncoder;
+        public boolean continousWrap = false;
+        public double sensorToMechanismRatio = 1.0;
+    }
+    public FeedbackConfig feedback = new FeedbackConfig();
+    public double simMoi = 0.0035;
 }

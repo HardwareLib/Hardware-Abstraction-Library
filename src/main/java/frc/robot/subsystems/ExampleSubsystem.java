@@ -18,7 +18,7 @@ import simple.lib.controls.PositionControl;
 import simple.lib.motor.Motor;
 import simple.lib.motor.Motor.MotorController;
 import simple.lib.motor.util.MotorConfig;
-import simple.lib.motor.util.MotorConfig.PID.FeedbackSource;
+import simple.lib.motor.util.MotorConfig.FeedbackConfig.FeedbackSource;
 import simple.lib.motor.util.MotorConfig.PID.GravityCompensationType;
 
 public class ExampleSubsystem extends SubsystemBase {
@@ -27,11 +27,12 @@ public class ExampleSubsystem extends SubsystemBase {
   PositionControl control = new PositionControl(Radians.zero());
   public ExampleSubsystem() {
     MotorConfig config = new MotorConfig();
-    config.PID_Config.slot0.kP = 1.0;
+    config.PID_Config.slot0.kP = 5.0;
     config.PID_Config.slot0.kD = 0.0;
-    config.PID_Config.feedbackSource = FeedbackSource.InternalEncoder;
+    config.feedback.sensorToMechanismRatio = 5.0;
+    config.feedback.feedbackSource = FeedbackSource.InternalEncoder;
     config.PID_Config.gravityCompensationType = GravityCompensationType.ELEVATOR_STATIC;
-    motor = new Motor(0, config, MotorController.TalonFX, DCMotor.getKrakenX60Foc(1));
+    motor = new Motor(0, config, MotorController.Sim, DCMotor.getKrakenX60Foc(1));
   }
   
   public Command setPosition(Angle position) {
