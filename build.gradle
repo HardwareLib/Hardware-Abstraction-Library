@@ -170,15 +170,11 @@ tasks.register('createVendorDepFile') {
     }
 }
 
-tasks.register('publishLibrary') {
+tasks.register('publishLibrary', Exec) {
     group = "WPILib Utilities"
     dependsOn("createVendorDepFile")
-    doLast {
-        sleep(2000);
-        "git add -A".execute();
-        sleep(2000);
-        ("git commit -a -m "+yearVersion+" publish").execute();
-        sleep(2000);
-        "git push origin"
-    }
+
+    commandLine 'git', 'add', '-A'
+    commandLine 'git', 'commit','-a -m',('"'+yearVersion+' publish"')
+    commandLine 'git', 'push', 'origin'
 }
