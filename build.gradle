@@ -170,11 +170,28 @@ tasks.register('createVendorDepFile') {
     }
 }
 
-tasks.register('publishLibrary', Exec) {
+tasks.register('publishLibrary') {
     group = "WPILib Utilities"
     dependsOn("createVendorDepFile")
 
-    commandLine 'git', 'add', '-A'
-    commandLine 'git', 'commit','-a -m',('"'+yearVersion+' publish"')
-    commandLine 'git', 'push', 'origin'
+    doLast {
+        exec {
+            workingDir(projectDir)
+            executable 'git'
+            args 'add', '-A'
+        }
+
+        exec {
+            workingDir(projectDir)
+            executable 'git'
+            args 'commit', '-m', ('"'+yearVersion+' publish"')
+            ignoreExitValue = true
+        }
+
+        exec {
+            workingDir(projectDir)
+            executable 'git'
+            args 'push', 'origin'
+        }
+    }
 }

@@ -27,11 +27,11 @@
         {
           "name": "hardwarelib-2026.0.7.jar",
           "url": "hardwarelib-2026.0.7.jar",
-          "size": 6820225,
-          "sha512": "5f2121d68a2f928b470b1bbe6f198080bab556411a705082dfaed053999b77b6ede772e13c0f415d814ce5c6671870e2d3786763fbf92f20ba71238ad449cc15",
-          "sha256": "b896370d7db71e96d4a84b8b0fe92a4364702d93fa32c00ecca8b1fc66d519da",
-          "sha1": "7b2e9e6eb63b8e260be0b75fc8f423b0479c32c3",
-          "md5": "bf83c26194139d35c40bb1e7ea072a44"
+          "size": 6820267,
+          "sha512": "f24c36cd2261072fad479dec48845851cbd9aadc139157559a6bb9a7f0d57a46759dd910d910e8627d8a948bc06fbcc0f3f32fce8ee46af9eabfba8741fbf17e",
+          "sha256": "e60280aebec2f14c828272fb2a79e528814105484dd4ab674a18ddfd982a5e7c",
+          "sha1": "9e95e442a7708ef1cb41c6120628ca028f643430",
+          "md5": "44b788ce5c7238f2a4a3558e053fd258"
         }
       ]
     },
@@ -183,11 +183,11 @@
         {
           "name": "hardwarelib-2026.0.7.jar",
           "url": "hardwarelib-2026.0.7.jar",
-          "size": 6820225,
-          "sha512": "5f2121d68a2f928b470b1bbe6f198080bab556411a705082dfaed053999b77b6ede772e13c0f415d814ce5c6671870e2d3786763fbf92f20ba71238ad449cc15",
-          "sha256": "b896370d7db71e96d4a84b8b0fe92a4364702d93fa32c00ecca8b1fc66d519da",
-          "sha1": "7b2e9e6eb63b8e260be0b75fc8f423b0479c32c3",
-          "md5": "bf83c26194139d35c40bb1e7ea072a44"
+          "size": 6820267,
+          "sha512": "f24c36cd2261072fad479dec48845851cbd9aadc139157559a6bb9a7f0d57a46759dd910d910e8627d8a948bc06fbcc0f3f32fce8ee46af9eabfba8741fbf17e",
+          "sha256": "e60280aebec2f14c828272fb2a79e528814105484dd4ab674a18ddfd982a5e7c",
+          "sha1": "9e95e442a7708ef1cb41c6120628ca028f643430",
+          "md5": "44b788ce5c7238f2a4a3558e053fd258"
         }
       ]
     }
