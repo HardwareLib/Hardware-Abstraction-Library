@@ -81,7 +81,6 @@ public class SimMotor implements MotorInterface {
             }
         }
         sim.update(0.020);
-        SmartDashboard.putData(pid);
     }
 
     /**
