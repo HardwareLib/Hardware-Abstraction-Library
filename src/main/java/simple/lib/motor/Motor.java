@@ -3,7 +3,8 @@ package simple.lib.motor;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.wpilibj2.command.*;
+import simple.lib.HardwareInterface;
+import simple.lib.HardwareRunner;
 import simple.lib.LibraryRegistry;
 import simple.lib.LibraryRegistry.LibraryType;
 import simple.lib.controls.Control;
@@ -11,15 +12,13 @@ import simple.lib.logging.data.MotorData;
 import simple.lib.motor.util.MotorConfig;
 import simple.lib.motor.util.MotorConfig.FeedbackConfig.FeedbackSource;
 import simple.lib.motor.util.MotorInterface;
-import java.util.function.Supplier;
-
 /**
  * A Simple Base class for motor abstraction.
  *
  *
  * @version 1.0
  */
-public class Motor extends SubsystemBase {
+public class Motor implements HardwareInterface {
     MotorInterface motorInterface;
     private boolean following = false;
     private boolean invertMaster = false;
@@ -101,6 +100,7 @@ public class Motor extends SubsystemBase {
             }
         }
         configure(this.config);
+        HardwareRunner.getInstance().registerInterface(this);
     }
 
     /**
@@ -197,46 +197,4 @@ public class Motor extends SubsystemBase {
     public void stop() {
         motorInterface.stop();
     }
-
-
-    // Prevent users from treating this like it is a proper subsystem
-    @Override
-    public Command run(Runnable run) {
-        return Commands.none();
-    }
-
-    @Override
-    public Command startRun(Runnable start, Runnable run) {
-        return Commands.none();
-    }
-
-    @Override
-    public Command idle() {
-        return Commands.none();
-    }
-    @Override
-    public Command runOnce(Runnable action) {
-        return Commands.none();
-    }
-    @Override
-    public Command startEnd(Runnable start, Runnable end) {
-        return Commands.none();
-    }
-    @Override
-    public Command runEnd(Runnable run, Runnable end) {
-        return Commands.none();
-    }
-
-    @Override
-    public Command defer(Supplier<Command> supplier) {
-        return Commands.none();
-    }
-
-    @Override
-    public void setDefaultCommand(Command command) {
-
-    }
-
-    @Override
-    public void removeDefaultCommand() {}
 }

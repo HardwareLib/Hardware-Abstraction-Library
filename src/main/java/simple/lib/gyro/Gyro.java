@@ -2,21 +2,18 @@ package simple.lib.gyro;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import simple.lib.HardwareInterface;
+import simple.lib.HardwareRunner;
 import simple.lib.LibraryRegistry;
 import simple.lib.gyro.util.GyroConfig;
 import simple.lib.gyro.util.GyroInterface;
 import simple.lib.logging.data.GyroData;
 
-import java.util.function.Supplier;
-
 /**
  * Work In Progress
  * DO NOT USE
  */
-public class Gyro extends SubsystemBase {
+public class Gyro implements HardwareInterface {
     public enum GyroType {
         Pidgeon2,
         CanAndGyro,
@@ -28,8 +25,8 @@ public class Gyro extends SubsystemBase {
     private GyroInterface gyroInterface;
 
     public boolean periodicDataCollection = false;
-    private GyroData data = new GyroData();
-    private int id;
+    private final GyroData data = new GyroData();
+    private final int id;
     /**
      * Work In Progress
      * DO NOT USE
@@ -57,6 +54,7 @@ public class Gyro extends SubsystemBase {
                     throw new Error("Fatal Error: You must install both Studica, and the Unofficial Studica MXP Abstraction Library"); // The difference between Studica and StudicaLib is so stupid. Just integrate the MXP gyros into the main I beg of you.
             }
         }
+        HardwareRunner.getInstance().registerInterface(this);
     }
 
     public void configure(GyroConfig config) {
@@ -102,45 +100,4 @@ public class Gyro extends SubsystemBase {
     public Rotation3d getAngularVelocity() {
         return gyroInterface.getAngularVelocity();
     }
-
-    // Prevent users from treating this like it is a proper subsystem
-    @Override
-    public Command run(Runnable run) {
-        return Commands.none();
-    }
-
-    @Override
-    public Command startRun(Runnable start, Runnable run) {
-        return Commands.none();
-    }
-
-    @Override
-    public Command idle() {
-        return Commands.none();
-    }
-    @Override
-    public Command runOnce(Runnable action) {
-        return Commands.none();
-    }
-    @Override
-    public Command startEnd(Runnable start, Runnable end) {
-        return Commands.none();
-    }
-    @Override
-    public Command runEnd(Runnable run, Runnable end) {
-        return Commands.none();
-    }
-
-    @Override
-    public Command defer(Supplier<Command> supplier) {
-        return Commands.none();
-    }
-
-    @Override
-    public void setDefaultCommand(Command command) {
-
-    }
-
-    @Override
-    public void removeDefaultCommand() {}
 }

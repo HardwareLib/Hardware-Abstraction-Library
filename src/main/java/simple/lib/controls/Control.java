@@ -38,7 +38,7 @@ public class Control {
     }
 
     public final Control copy() {
-        return new Control(this.output,this.type);
+        return new Control(this.output,this.type, this.slot);
     }
 
     public final Control invert() {

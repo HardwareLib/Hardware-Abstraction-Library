@@ -175,6 +175,7 @@ tasks.register('publishLibrary') {
     dependsOn("createVendorDepFile")
 
     doLast {
+        println("testing");
         providers.exec {
             workingDir(projectDir)
             executable 'git'

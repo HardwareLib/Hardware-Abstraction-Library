@@ -1,5 +1,5 @@
 package simple.lib;
 
-public interface Hardware {
+public interface HardwareInterface {
     public default void periodic() {}
 }
