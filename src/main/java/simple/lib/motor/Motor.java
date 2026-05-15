@@ -142,7 +142,7 @@ public class Motor implements HardwareInterface {
         motorInterface.periodic();
        if (following) {
         Control control = master.getActiveControl();
-        Control follow = (invertMaster ? control : control.copy().invert());
+        Control follow = (invertMaster ? control.copy().invert() : control);
         motorInterface.setControl(follow);
         this.activeControl = follow;
        }
