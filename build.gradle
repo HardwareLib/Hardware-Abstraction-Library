@@ -153,7 +153,7 @@ tasks.register('createVendorDepFile') {
         templateJson.mavenUrls = [
                 mavenWebLocat
         ]
-        templateJson.jsonUrl = "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/"+jsonName
+        templateJson.jsonUrl = "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/latest"+year+".json"
         templateJson.javaDependencies[0].groupId = projectId
         templateJson.javaDependencies[0].artifactId=projectArtifact
         templateJson.javaDependencies[0].version=yearVersion
@@ -161,9 +161,15 @@ tasks.register('createVendorDepFile') {
         println(templateJson.version)
 
         def outputFile = new File("./docs/libfiles/"+jsonName);
+        def latestFile = new File("./docs/libfiles/latest-"+year+".json");
         if (!outputFile.createNewFile()) {
             outputFile.delete();
             outputFile.createNewFile();
+        }
+        latestFile.setText(JsonOutput.prettyPrint(JsonOutput.toJson(templateJson)))
+        if (!latestFile.createNewFile()) {
+            latestFile.delete();
+            latestFile.createNewFile();
         }
         outputFile.setText(JsonOutput.prettyPrint(JsonOutput.toJson(templateJson)))
         println(JsonOutput.prettyPrint(JsonOutput.toJson(templateJson)))
