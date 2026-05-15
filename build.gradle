@@ -182,20 +182,20 @@ tasks.register('publishLibrary') {
 
     doLast {
         println("testing");
-        providers.exec {
+        exec {
             workingDir(projectDir)
             executable 'git'
             args 'add', '-A'
         }
 
-        providers.exec {
+        exec {
             workingDir(projectDir)
             executable 'git'
             args 'commit', '-m', ('"'+yearVersion+' publish"')
             ignoreExitValue = true
         }
 
-        providers.exec {
+        exec {
             workingDir(projectDir)
             executable 'git'
             args 'push', 'origin'
