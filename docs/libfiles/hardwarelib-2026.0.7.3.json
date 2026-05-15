@@ -7,7 +7,7 @@
     "mavenUrls": [
         "https://hardwarelib.github.io/Hardware-Abstraction-Library/maven/release"
     ],
-    "jsonUrl": "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/latest2026.json",
+    "jsonUrl": "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/latest-2026.json",
     "javaDependencies": [
         {
             "groupId": "simple.lib",
