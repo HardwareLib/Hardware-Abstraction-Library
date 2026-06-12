@@ -74,7 +74,10 @@ public class MotorConfig {
     public static class FeedbackConfig {
         public enum FeedbackSource {
             InternalEncoder,
-            ExternalEncoder, // Externally Connected Controller
+            /** An external absolute encoder directly connected to the motor controller only used for TalonSRX, TalonFXS, and all REV Spark Motor Controllers */
+            ExternalAbsoluteEncoder,
+            /** A relative encoder directly connected to the motor controller only used for TalonSRX, TalonFXS, and all REV Spark Motor Controllers */
+            ExternalRelativeEncoder,
             FusedEncoder,
             /**USED for having TalonFX and FXS read from a CANCODER Only, and maybe Nitrate */
             CanEncoder
