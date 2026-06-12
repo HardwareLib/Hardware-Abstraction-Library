@@ -73,11 +73,13 @@ public class MotorConfig {
 
     public static class FeedbackConfig {
         public enum FeedbackSource {
+            /** The internal encoder of the motor this is can only be used if a motor has an encoder or it will simply fail */
             InternalEncoder,
             /** An external absolute encoder directly connected to the motor controller only used for TalonSRX, TalonFXS, and all REV Spark Motor Controllers */
             ExternalAbsoluteEncoder,
             /** A relative encoder directly connected to the motor controller only used for TalonSRX, TalonFXS, and all REV Spark Motor Controllers */
             ExternalRelativeEncoder,
+            /** Uses this library to fuse encoder output indirectly with the motor while also using the motor's internal sensor for the closed loop */
             FusedEncoder,
             /**USED for having TalonFX and FXS read from a CANCODER Only, and maybe Nitrate */
             CanEncoder
