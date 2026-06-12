@@ -100,7 +100,16 @@ public class MotorConfig {
 
         public FeedbackSource feedbackSource = FeedbackSource.InternalEncoder;
         public boolean continousWrap = false;
+
+        /** The Gear ratio of sensor input to Mechanism output.
+         * For most swerve drives this is 1 for other mechanisms please check your cad or the manufacture's cad for that mechanism.
+         */
         public double sensorToMechanismRatio = 1.0;
+        
+        /** The Gear ratio of motor to Mechanism output
+         * You must use CAD for this. 
+         */
+        public double motorToMechanismRation =  1.0; // If used on an internal encoder this does effectively the same as sensorToMechanism Ration
     }
     public FeedbackConfig feedback = new FeedbackConfig();
     public double simMoi = 0.0035;

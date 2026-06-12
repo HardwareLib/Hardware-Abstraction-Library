@@ -1,18 +1,18 @@
 {
-    "fileName": "hardwarelib-2026.0.6.json",
+    "fileName": "hardwarelib-2026.0.7.5.json",
     "name": "Hardware Abstraction Library",
-    "version": "2026.0.6",
+    "version": "2026.0.7.5",
     "uuid": "29175ccf-d838-43f6-a0d7-5b995a64cdec",
     "frcYear": "2026",
     "mavenUrls": [
         "https://hardwarelib.github.io/Hardware-Abstraction-Library/maven/release"
     ],
-    "jsonUrl": "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/hardwarelib-2026.0.6.json",
+    "jsonUrl": "https://hardwarelib.github.io/Hardware-Abstraction-Library/libfiles/latest-2026.json",
     "javaDependencies": [
         {
             "groupId": "simple.lib",
             "artifactId": "hardwarelib",
-            "version": "2026.0.6"
+            "version": "2026.0.7.5"
         }
     ],
     "jniDependencies": [],

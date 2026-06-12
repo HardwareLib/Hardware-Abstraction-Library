@@ -7,6 +7,7 @@ package simple.phoenix6.utility;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -20,11 +21,22 @@ public class Phoenix6ConfigUtility {
     public static TalonFXConfiguration getTalonFXConfig(MotorConfig config) {
         TalonFXConfiguration configuration = new TalonFXConfiguration();
         
-        configuration.ClosedLoopGeneral.ContinuousWrap = config.PID_Config.continousWrap;
+        configuration.ClosedLoopGeneral.ContinuousWrap = config.feedback.continousWrap;
 
         configuration.MotorOutput.NeutralMode = config.outputConfig.neutralMode == NeutralMode.Brake ? NeutralModeValue.Brake : NeutralModeValue.Coast;
         configuration.MotorOutput.Inverted = config.outputConfig.outputDirection == OutputDirection.ClockWisePositive ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-        configuration.Feedback.SensorToMechanismRatio = config.outputConfig.sensorToMechanismRatio;
+        configuration.Feedback.SensorToMechanismRatio = config.feedback.sensorToMechanismRatio;
+
+        switch (config.feedback.feedbackSource) {
+            case InternalEncoder, ExternalEncoder, FusedEncoder:
+                // TALONFX doesn't support External Encoders connected to motor controller and we can use Internal encoders for both the internal encoder config and fused encoder config;
+                configuration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+                break;
+            case CanEncoder:
+                configuration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+                configuration.Feedback.FeedbackRemoteSensorID = config.feedback.encoderId;
+                break;
+        }
 
         configuration.CurrentLimits.StatorCurrentLimit = config.currentLimits.maxStator;
         configuration.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -55,21 +67,45 @@ public class Phoenix6ConfigUtility {
     public static TalonFXSConfiguration getTalonFXSConfig(MotorConfig config) {
         TalonFXSConfiguration configuration = new TalonFXSConfiguration();
         
-        configuration.ClosedLoopGeneral.ContinuousWrap = config.PID_Config.continousWrap;
+        configuration.ClosedLoopGeneral.ContinuousWrap = config.feedback.continousWrap;
 
         configuration.MotorOutput.NeutralMode = config.outputConfig.neutralMode == NeutralMode.Brake ? NeutralModeValue.Brake : NeutralModeValue.Coast;
         configuration.MotorOutput.Inverted = config.outputConfig.outputDirection == OutputDirection.ClockWisePositive ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-        configuration.ExternalFeedback.SensorToMechanismRatio = config.outputConfig.sensorToMechanismRatio;
+        configuration.ExternalFeedback.SensorToMechanismRatio = config.feedback.sensorToMechanismRatio;
         configuration.CurrentLimits.StatorCurrentLimit = config.currentLimits.maxStator;
         configuration.CurrentLimits.StatorCurrentLimitEnable = true;
         configuration.CurrentLimits.SupplyCurrentLimit = config.currentLimits.maxSupply;
         configuration.CurrentLimits.SupplyCurrentLimitEnable = true;
 
-        configuration.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.Commutation;
+        switch (config.feedback.feedbackSource) {
+            case InternalEncoder, ExternalEncoder, FusedEncoder:
+                
+                break;
+            case CanEncoder:
+                configuration.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.RemoteCANcoder;
+                configuration.ExternalFeedback.FeedbackRemoteSensorID = config.feedback.encoderId;
+                break;
+        }
 
         configuration.Slot0.withKP(config.PID_Config.slot0.kP).withKI(config.PID_Config.slot0.kI).withKD(config.PID_Config.slot0.kD).withKS(config.PID_Config.slot0.kS).withKV(config.PID_Config.slot0.kV).withKA(config.PID_Config.slot0.kA).withKG(config.PID_Config.slot0.kG);
         configuration.Slot1.withKP(config.PID_Config.slot1.kP).withKI(config.PID_Config.slot1.kI).withKD(config.PID_Config.slot1.kD).withKS(config.PID_Config.slot1.kS).withKV(config.PID_Config.slot1.kV).withKA(config.PID_Config.slot1.kA).withKG(config.PID_Config.slot1.kG);
         configuration.Slot2.withKP(config.PID_Config.slot2.kP).withKI(config.PID_Config.slot2.kI).withKD(config.PID_Config.slot2.kD).withKS(config.PID_Config.slot2.kS).withKV(config.PID_Config.slot2.kV).withKA(config.PID_Config.slot2.kA).withKG(config.PID_Config.slot2.kG);
+        switch (config.PID_Config.gravityCompensationType) {
+            case ARM_COSINE:
+                configuration.Slot0.GravityType = GravityTypeValue.Arm_Cosine;
+                configuration.Slot1.GravityType = GravityTypeValue.Arm_Cosine;
+                configuration.Slot2.GravityType = GravityTypeValue.Arm_Cosine;
+                break;
+            case ELEVATOR_STATIC:
+                configuration.Slot0.GravityType = GravityTypeValue.Elevator_Static;
+                configuration.Slot1.GravityType = GravityTypeValue.Elevator_Static;
+                configuration.Slot2.GravityType = GravityTypeValue.Elevator_Static;
+                break;
+            default:
+                // CTRE doesn't support Arm sine compensation yet.
+                break;
+        }
+
         return configuration;
     }
 }
