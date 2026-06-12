@@ -109,26 +109,6 @@ public class SimMotor implements MotorInterface {
     }
 
     /**
-     * @param config
-     * @param slot
-     */
-    @Override
-    public void configPID(MotorConfig.PID.SlotConfig config, int slot) {
-        switch (slot) {
-            case 1:
-                this.config.PID_Config.slot1 = config;
-                break;
-            case 2:
-                this.config.PID_Config.slot2 = config;
-                break;
-            default:
-                this.config.PID_Config.slot0 = config;
-                break;
-        }
-        configure(this.config);
-    }
-
-    /**
      * @param control
      */
     @Override

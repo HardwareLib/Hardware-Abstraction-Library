@@ -65,7 +65,7 @@ public class TalonFXInterface implements MotorInterface {
         position = talon.getPosition();
         velocity = talon.getVelocity();
         acceleration = talon.getAcceleration();
-
+        
         appliedVoltage = talon.getMotorVoltage();
 
         supply = talon.getSupplyCurrent();

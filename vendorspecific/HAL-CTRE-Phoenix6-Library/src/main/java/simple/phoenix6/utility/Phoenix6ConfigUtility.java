@@ -28,15 +28,15 @@ public class Phoenix6ConfigUtility {
         configuration.Feedback.SensorToMechanismRatio = config.feedback.sensorToMechanismRatio;
 
         switch (config.feedback.feedbackSource) {
-            case InternalEncoder, ExternalEncoder, FusedEncoder:
-                // TALONFX doesn't support External Encoders connected to motor controller and we can use Internal encoders for both the internal encoder config and fused encoder config;
-                configuration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-                break;
             case CanEncoder:
                 configuration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
                 configuration.Feedback.FeedbackRemoteSensorID = config.feedback.encoderId;
                 // This is assuming that motor to mechanism ratio and sensor to mechanism ratio isn't 1
                 configuration.Feedback.RotorToSensorRatio = config.feedback.motorToMechanismRation/config.feedback.sensorToMechanismRatio;
+                break;
+            default:
+                // TALONFX doesn't support External Encoders connected to motor controller and we can use Internal encoders for both the internal encoder config and fused encoder config;
+                configuration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
                 break;
         }
 
@@ -80,15 +80,23 @@ public class Phoenix6ConfigUtility {
         configuration.CurrentLimits.SupplyCurrentLimitEnable = true;
 
         switch (config.feedback.feedbackSource) {
-            case InternalEncoder, ExternalEncoder, FusedEncoder:
-                // TALONFX doesn't support External Encoders connected to motor controller and we can use Internal encoders for both the internal encoder config and fused encoder config;
-                configuration.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.Commutation;
+            case ExternalAbsoluteEncoder:
+                configuration.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.PulseWidth;
+                configuration.ExternalFeedback.RotorToSensorRatio = config.feedback.motorToMechanismRation/config.feedback.sensorToMechanismRatio;
+                break;
+            case ExternalRelativeEncoder:
+                configuration.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.Quadrature;
+                configuration.ExternalFeedback.RotorToSensorRatio = config.feedback.motorToMechanismRation/config.feedback.sensorToMechanismRatio;
                 break;
             case CanEncoder:
                 configuration.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.RemoteCANcoder;
                 configuration.ExternalFeedback.FeedbackRemoteSensorID = config.feedback.encoderId;
                 // This is assuming that motor to mechanism ratio and sensor to mechanism ratio isn't 1
                 configuration.ExternalFeedback.RotorToSensorRatio = config.feedback.motorToMechanismRation/config.feedback.sensorToMechanismRatio;
+                break;
+            default:
+                // TALONFX doesn't support External Encoders connected to motor controller and we can use Internal encoders for both the internal encoder config and fused encoder config;
+                configuration.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.Commutation;
                 break;
         }
 

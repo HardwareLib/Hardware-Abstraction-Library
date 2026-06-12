@@ -11,6 +11,7 @@ import simple.lib.controls.Control;
 import simple.lib.logging.data.MotorData;
 import simple.lib.motor.util.MotorConfig;
 import simple.lib.motor.util.MotorConfig.FeedbackConfig.FeedbackSource;
+import simple.lib.motor.util.MotorConfig.PID.SlotConfig;
 import simple.lib.motor.util.MotorInterface;
 /**
  * A Simple Base class for motor abstraction.
@@ -126,6 +127,18 @@ public class Motor implements HardwareInterface {
                 break;
         }
         configure(this.config);
+    }
+
+    public void configPID(double kP, double kI, double kD, double kV, double kA, double kS, double kG, int slot) {
+        SlotConfig config = new SlotConfig();
+        config.kP = kP;
+        config.kI = kI;
+        config.kD = kD;
+        config.kV = kV;
+        config.kA = kA;
+        config.kS = kS;
+        config.kG = kG;
+        configureSlot(config, slot);
     }
 
     public void configure(MotorConfig config) {
