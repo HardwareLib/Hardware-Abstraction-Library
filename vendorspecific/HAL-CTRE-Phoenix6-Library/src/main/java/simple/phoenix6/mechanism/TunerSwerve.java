@@ -4,8 +4,10 @@
 
 package simple.phoenix6.mechanism;
 
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Rotations;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
@@ -118,6 +120,16 @@ public class TunerSwerve extends SwerveDrive {
     config.frontRightConfig.moduleTranslation = new Translation2d(frontRight.LocationX, backRight.LocationY);
     config.backLeftConfig.moduleTranslation = new Translation2d(backLeft.LocationX, backLeft.LocationY);
     config.backRightConfig.moduleTranslation = new Translation2d(backRight.LocationX, backRight.LocationY);
+
+    config.frontLeftConfig.wheelDiameter = Meters.of(frontLeft.WheelRadius*2);
+    config.frontRightConfig.wheelDiameter = Meters.of(frontRight.WheelRadius*2);
+    config.backLeftConfig.wheelDiameter = Meters.of(backLeft.WheelRadius*2);
+    config.backRightConfig.wheelDiameter = Meters.of(backRight.WheelRadius*2);
+
+    TalonFXConfiguration driveMotorConfig = (TalonFXConfiguration) frontLeft.DriveMotorInitialConfigs;
+    driveMotorConfig.withSlot0(frontLeft.DriveMotorGains);
+    driveMotorConfig.CurrentLimits.StatorCurrentLimit = frontLeft.SlipCurrent;
+    driveMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     return config;
   }

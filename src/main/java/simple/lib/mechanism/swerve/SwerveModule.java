@@ -30,7 +30,7 @@ public class SwerveModule {
             steerConfig.feedback.setFusedFeedbackSource(encoder);
         }
         steerConfig.feedback.continousWrap = true;
-        steerConfig.feedback.sensorToMechanismRatio = swerveConfig.steerGearing;
+        steerConfig.feedback.motorToMechanismRatio = swerveConfig.steerGearing;
         driveConfig.feedback.sensorToMechanismRatio = swerveConfig.driveGearing;
 
         steerConfig.outputConfig.outputDirection = config.steerDirection;

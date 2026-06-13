@@ -113,8 +113,9 @@ public class MotorConfig {
         
         /** The Gear ratio of motor to Mechanism output
          * You must use CAD for this. 
+         * Leave this value as it is if you want the sensor to mechanism ratio to be the same the motor to Mechanism ratio allowing for only variable change not 2
          */
-        public double motorToMechanismRation =  1.0; // If used on an internal encoder this does effectively the same as sensorToMechanism Ration
+        public double motorToMechanismRatio =  0.0; // If used on an internal encoder this does effectively the same as sensorToMechanism Ration
     }
     public FeedbackConfig feedback = new FeedbackConfig();
     public double simMoi = 0.0035;

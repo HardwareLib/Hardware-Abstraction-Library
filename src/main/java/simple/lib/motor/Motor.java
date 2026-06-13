@@ -70,6 +70,9 @@ public class Motor implements HardwareInterface {
      * */
     @SuppressWarnings("unchecked")
     public Motor(int id, MotorConfig config, MotorController controller, DCMotor motor) {
+        if (config.feedback.motorToMechanismRatio == 0.0) {
+            config.feedback.motorToMechanismRatio = config.feedback.sensorToMechanismRatio;
+        }
         this.config = config;
         this.id = id;
         Class<MotorInterface> interfaceClass;

@@ -50,9 +50,10 @@ public class SwerveDriveConfig {
 
         public OutputDirection steerDirection = OutputDirection.ClockWisePositive;
         public OutputDirection driveDirection = OutputDirection.ClockWisePositive;
+        public boolean encoderInverted = false;
     }
 
-    /** The gear ratio of the steer/azimuth motor of the module */
+    /** The gear ratio of the steer/azimuth motor of the module to the sensor */ 
     public double steerGearing = 1.0; // Global Steer Gearing
     /** The gear ratio of the drive motor of the module */
     public double driveGearing = 1.0; // Global Drive Gearing
