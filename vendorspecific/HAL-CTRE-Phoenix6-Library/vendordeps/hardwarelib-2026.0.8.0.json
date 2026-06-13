@@ -1,7 +1,7 @@
 {
-    "fileName": "hardwarelib-2026.0.7.7.json",
+    "fileName": "hardwarelib-2026.0.8.0.json",
     "name": "Hardware Abstraction Library",
-    "version": "2026.0.7.7",
+    "version": "2026.0.8.0",
     "uuid": "29175ccf-d838-43f6-a0d7-5b995a64cdec",
     "frcYear": "2026",
     "mavenUrls": [
@@ -12,7 +12,7 @@
         {
             "groupId": "simple.lib",
             "artifactId": "hardwarelib",
-            "version": "2026.0.7.7"
+            "version": "2026.0.8.0"
         }
     ],
     "jniDependencies": [],

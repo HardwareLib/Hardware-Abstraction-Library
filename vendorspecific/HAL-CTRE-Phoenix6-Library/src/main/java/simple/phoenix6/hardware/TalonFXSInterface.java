@@ -28,7 +28,6 @@ import edu.wpi.first.units.measure.Voltage;
 import simple.lib.controls.Control;
 import simple.lib.logging.data.MotorData;
 import simple.lib.motor.util.MotorConfig;
-import simple.lib.motor.util.MotorConfig.PID.SlotConfig;
 import simple.phoenix6.utility.Phoenix6ConfigUtility;
 import simple.phoenix6.utility.PhoenixUtil;
 import simple.lib.motor.util.MotorInterface;
@@ -100,11 +99,6 @@ public class TalonFXSInterface implements MotorInterface {
     public void configure(MotorConfig config) {
         TalonFXSConfiguration motorConfig = Phoenix6ConfigUtility.getTalonFXSConfig(config);
         PhoenixUtil.tryUntilOkay(() -> talon.getConfigurator().apply(motorConfig), 5);
-    }
-
-    @Override
-    public void configPID(SlotConfig config, int slot) {
-        // TO BE REMOVED PENDING VERSION 0.7
     }
 
     @Override

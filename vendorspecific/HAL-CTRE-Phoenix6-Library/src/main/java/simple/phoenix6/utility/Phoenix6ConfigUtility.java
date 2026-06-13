@@ -121,4 +121,19 @@ public class Phoenix6ConfigUtility {
 
         return configuration;
     }
+
+    public static MotorConfig getConfig(TalonFXConfiguration config) {
+        return new MotorConfig();
+    }
+
+    public static OutputDirection getDirectionFromPhoenix(InvertedValue value) {
+        switch (value) {
+            case Clockwise_Positive:
+                return OutputDirection.ClockWisePositive;
+            case CounterClockwise_Positive:
+                return OutputDirection.CounterClockWisePositive;
+            default:
+                return OutputDirection.ClockWisePositive;
+        }
+    }
 }
