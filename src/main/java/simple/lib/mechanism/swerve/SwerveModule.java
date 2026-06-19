@@ -6,6 +6,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import simple.lib.controls.PositionControl;
 import simple.lib.controls.VelocityControl;
 import simple.lib.encoder.Encoder;
+import simple.lib.encoder.util.EncoderConfig;
 import simple.lib.mechanism.swerve.util.SwerveDriveConfig;
 import simple.lib.motor.Motor;
 import simple.lib.motor.util.MotorConfig;
@@ -25,8 +26,11 @@ public class SwerveModule {
     public SwerveModule(SwerveDriveConfig.ModuleConfig config, SwerveDriveConfig swerveConfig) {
         MotorConfig steerConfig = swerveConfig.steerConfig;
         MotorConfig driveConfig = swerveConfig.driveConfig;
+        EncoderConfig encoderConfig = swerveConfig.encoderConfig;
         if (config.encoderId != -1) {
-            encoder = new Encoder(config.encoderId, (config.encoderType != null) ? config.encoderType : swerveConfig.encoderType,swerveConfig.encoderConfig);
+            encoderConfig.offset = config.encoderOffset;
+            encoderConfig.inverted = config.encoderInverted;
+            encoder = new Encoder(config.encoderId, (config.encoderType != null) ? config.encoderType : swerveConfig.encoderType,encoderConfig);
             steerConfig.feedback.setFusedFeedbackSource(encoder);
         }
         steerConfig.feedback.continousWrap = true;

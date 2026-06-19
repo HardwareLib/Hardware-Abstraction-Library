@@ -26,14 +26,14 @@ public class LibraryRegistry {
                 "Sim", "simple.lib.template.hardwareInterface.SimMotor"
             ),
             LibraryType.Encoder, Map.of(
-                "CANCoder", "simple.phoenix6.hardware.CANCoder", // TODO: Make this
+                "CANCoder", "simple.phoenix6.hardware.CANCoder",
                 "Helium", "simple.reduxrobotics.hardware.CANAndMag", // TODO: Make this
                 "CANAndMag", "simple.reduxrobotics.hardware.CANAndMag", // Kept as a nickname for CANAndMag
-                "PWM", "simple.lib.template.hardwareInterface.PWMEncoder", // TODO: Make this
-                "Quadrature", "simple.lib.template.hardwareInterface.QuadratureEncoder" // TODO: Make this
+                "PWM", "simple.lib.template.hardwareInterface.PWMEncoder",
+                "Quadrature", "simple.lib.template.hardwareInterface.QuadratureEncoder"
             ),
             LibraryType.Gyro, Map.of(
-                    "Pigeon2", "simple.phoenix6.hardware.Pigeon2", // TODO: Make this
+                    "Pigeon2", "simple.phoenix6.hardware.Pigeon2Interface", // TODO: Make this
                     "CanAndGyro", "simple.reduxrobotics.hardware.CanAndGyro", // TODO: Make this
                     "Boron", "simple.reduxrobotics.hardware.CanAndGyro",  // Kept as a nickname for CANAndGyro
                     "NavX3", "simple.studica_can.hardware.navx3", // TODO: Make this

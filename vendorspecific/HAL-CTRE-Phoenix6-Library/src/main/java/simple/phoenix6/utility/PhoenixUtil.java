@@ -4,8 +4,10 @@
 
 package simple.phoenix6.utility;
 
+import java.util.HashMap;
 import java.util.function.Supplier;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusCode;
 
 /** Add your docs here. */
@@ -17,5 +19,21 @@ public class PhoenixUtil {
             currentStatus = function.get();
             attempts++;
         }
+    }
+
+    private static HashMap<String, CANBus> canbusMap;
+    
+    /**
+     * 
+     * @param busName
+     * @return
+     */
+    public static CANBus getCAN(String busName) {
+        if (canbusMap.containsKey(busName)) {
+            return canbusMap.get(busName);
+        }
+        CANBus can = new CANBus(busName);
+        canbusMap.put(busName, can);
+        return can;
     }
 }

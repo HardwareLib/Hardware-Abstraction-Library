@@ -15,6 +15,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import simple.lib.encoder.Encoder.EncoderType;
 import simple.lib.gyro.Gyro.GyroType;
 import simple.lib.mechanism.swerve.SwerveDrive;
 import simple.lib.mechanism.swerve.util.SwerveDriveConfig;
@@ -80,36 +81,40 @@ public class TunerSwerve extends SwerveDrive {
     };
 
     config.frontLeftConfig.driveId = frontLeft.DriveMotorId;
-    config.frontLeftConfig.encoderId = frontLeft.EncoderId;
+    config.frontLeftConfig.encoderId = frontLeft.EncoderId != 0 ? frontLeft.EncoderId : -1; // Maybe an automatic sim to real thing on top????  
     config.frontLeftConfig.steerId = frontLeft.SteerMotorId;
 
     config.frontRightConfig.driveId = frontRight.DriveMotorId;
-    config.frontRightConfig.encoderId = frontRight.EncoderId;
+    config.frontRightConfig.encoderId = frontRight.EncoderId != 0 ? frontRight.EncoderId : -1;
     config.frontRightConfig.steerId = frontRight.SteerMotorId;
     
     config.backLeftConfig.driveId = backLeft.DriveMotorId;
-    config.backLeftConfig.encoderId = backLeft.EncoderId;
+    config.backLeftConfig.encoderId = backLeft.EncoderId != 0 ? backLeft.EncoderId : -1;
     config.backLeftConfig.steerId = backLeft.SteerMotorId;
     
     config.backRightConfig.driveId = backRight.DriveMotorId;
-    config.backRightConfig.encoderId = backRight.EncoderId;
+    config.backRightConfig.encoderId = backRight.EncoderId != 0 ? backRight.EncoderId : -1;
     config.backRightConfig.steerId = backRight.SteerMotorId;
 
     config.frontLeftConfig.driveGearing = frontLeft.DriveMotorGearRatio;
     config.frontLeftConfig.driveDirection = frontLeft.DriveMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
     config.frontLeftConfig.steerGearing = frontLeft.SteerMotorGearRatio;
+    config.frontLeftConfig.steerDirection = frontLeft.SteerMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
 
     config.frontRightConfig.driveGearing = frontRight.DriveMotorGearRatio;
     config.frontRightConfig.driveDirection = frontRight.DriveMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
     config.frontRightConfig.steerGearing = frontRight.SteerMotorGearRatio;
+    config.frontRightConfig.steerDirection = frontLeft.SteerMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
 
-    config.backLeftConfig.driveGearing = frontLeft.DriveMotorGearRatio;
-    config.backLeftConfig.driveDirection = frontLeft.DriveMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
-    config.backLeftConfig.steerGearing = frontLeft.SteerMotorGearRatio;
+    config.backLeftConfig.driveGearing = backLeft.DriveMotorGearRatio;
+    config.backLeftConfig.driveDirection = backLeft.DriveMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
+    config.backLeftConfig.steerGearing = backLeft.SteerMotorGearRatio;
+    config.backLeftConfig.steerDirection = backLeft.SteerMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
 
-    config.backRightConfig.driveGearing = frontRight.DriveMotorGearRatio;
-    config.backRightConfig.driveDirection = frontRight.DriveMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
-    config.backRightConfig.steerGearing = frontRight.SteerMotorGearRatio;
+    config.backRightConfig.driveGearing = backRight.DriveMotorGearRatio;
+    config.backRightConfig.driveDirection = backRight.DriveMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
+    config.backRightConfig.steerGearing = backRight.SteerMotorGearRatio;
+    config.backRightConfig.steerDirection = backRight.SteerMotorInverted ? OutputDirection.ClockWisePositive : OutputDirection.CounterClockWisePositive;
 
     // I haven't included support for CANDi as that isn't a priority because it has multiple inputs and isn't traditionally used by most teams/
     config.frontLeftConfig.encoderSource = FeedbackSource.CanEncoder;
@@ -121,6 +126,11 @@ public class TunerSwerve extends SwerveDrive {
     config.frontRightConfig.encoderOffset = Rotations.of(frontRight.EncoderOffset);
     config.backLeftConfig.encoderOffset = Rotations.of(backLeft.EncoderOffset);
     config.backRightConfig.encoderOffset = Rotations.of(backRight.EncoderOffset);
+
+    config.frontLeftConfig.encoderInverted = frontLeft.EncoderInverted;
+    config.frontRightConfig.encoderInverted = frontRight.EncoderInverted;
+    config.backLeftConfig.encoderInverted = backLeft.EncoderInverted;
+    config.backRightConfig.encoderInverted = backRight.EncoderInverted;
 
     config.frontLeftConfig.moduleTranslation = new Translation2d(frontLeft.LocationX, frontRight.LocationY);
     config.frontRightConfig.moduleTranslation = new Translation2d(frontRight.LocationX, backRight.LocationY);
@@ -156,8 +166,30 @@ public class TunerSwerve extends SwerveDrive {
       config.driveConfig = new MotorConfig();
     }
 
+    if (frontLeft.SteerMotorInitialConfigs instanceof TalonFXConfiguration || frontLeft.SteerMotorInitialConfigs instanceof TalonFXSConfiguration) {
+      if (frontLeft.SteerMotorInitialConfigs instanceof TalonFXConfiguration) {
+        TalonFXConfiguration steerMotorConfig = (TalonFXConfiguration) frontLeft.SteerMotorInitialConfigs;
+        steerMotorConfig.withSlot0(frontLeft.SteerMotorGains);
+        steerMotorConfig.ClosedLoopGeneral.ContinuousWrap = true;
 
-    if (frontLeft.EncoderInitialConfigs instanceof CANcoderConfiguration) {}
+        steerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.steerConfig = Phoenix6ConfigUtility.getMotorConfig(steerMotorConfig);
+      } else {
+        TalonFXSConfiguration steerMotorConfig = (TalonFXSConfiguration) frontLeft.SteerMotorInitialConfigs;
+        steerMotorConfig.withSlot0(frontLeft.SteerMotorGains);
+        steerMotorConfig.ClosedLoopGeneral.ContinuousWrap = true;
+
+        steerMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.steerConfig = Phoenix6ConfigUtility.getMotorConfig(steerMotorConfig);
+      }
+    } else {
+      config.steerConfig = new MotorConfig();
+    }
+
+    if (frontLeft.EncoderInitialConfigs instanceof CANcoderConfiguration) {
+      config.encoderType = EncoderType.CANCoder;
+      config.encoderConfig = Phoenix6ConfigUtility.getEncoderConfig((CANcoderConfiguration) frontLeft.EncoderInitialConfigs);
+    }
 
     config.gyroType = GyroType.Pidgeon2;
     config.gyroId = swerveConstants.Pigeon2Id;

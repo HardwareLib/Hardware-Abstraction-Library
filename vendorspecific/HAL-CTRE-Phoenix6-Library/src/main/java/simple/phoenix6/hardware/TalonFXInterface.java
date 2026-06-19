@@ -58,7 +58,7 @@ public class TalonFXInterface implements MotorInterface {
     private final MotionMagicVelocityVoltage profiledVelocity = new MotionMagicVelocityVoltage(RadiansPerSecond.zero());
 
     public TalonFXInterface(int id, MotorConfig config) {
-        talon = new TalonFX(id,new CANBus(config.canbus));
+        talon = new TalonFX(id,PhoenixUtil.getCAN(config.canbus));
         TalonFXConfiguration motorConfig = Phoenix6ConfigUtility.getTalonFXConfig(config);
         PhoenixUtil.tryUntilOkay(() -> talon.getConfigurator().apply(motorConfig), 5);
 
