@@ -15,7 +15,7 @@ import simple.lib.logging.data.GyroData;
  */
 public class Gyro implements HardwareInterface {
     public enum GyroType {
-        Pidgeon2,
+        Pigeon2,
         CanAndGyro,
         Boron,
         NavX3,
@@ -44,7 +44,7 @@ public class Gyro implements HardwareInterface {
         catch(Exception e) {
             e.printStackTrace();
             switch (type) {
-                case Pidgeon2:
+                case Pigeon2:
                     throw new Error("Fatal Error: You must install both the Phoenix 6 Library, and the Unofficial Phoenix 6 Abstraction Library");
                 case Boron, CanAndGyro:
                     throw new Error("Fatal Error: You must install both ReduxLib, and the Unofficial Redux Robotics Abstraction Library");

@@ -33,7 +33,7 @@ public class LibraryRegistry {
                 "Quadrature", "simple.lib.template.hardwareInterface.QuadratureEncoder" // TODO: Make this
             ),
             LibraryType.Gyro, Map.of(
-                    "Pidgeon2", "simple.phoenix6.hardware.Pidgeon2", // TODO: Make this
+                    "Pigeon2", "simple.phoenix6.hardware.Pigeon2", // TODO: Make this
                     "CanAndGyro", "simple.reduxrobotics.hardware.CanAndGyro", // TODO: Make this
                     "Boron", "simple.reduxrobotics.hardware.CanAndGyro",  // Kept as a nickname for CANAndGyro
                     "NavX3", "simple.studica_can.hardware.navx3", // TODO: Make this

@@ -7,6 +7,7 @@ package simple.phoenix6.mechanism;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Rotations;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -14,6 +15,7 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import simple.lib.gyro.Gyro.GyroType;
 import simple.lib.mechanism.swerve.SwerveDrive;
 import simple.lib.mechanism.swerve.util.SwerveDriveConfig;
 import simple.lib.motor.Motor.MotorController;
@@ -140,7 +142,7 @@ public class TunerSwerve extends SwerveDrive {
         driveMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent = frontLeft.SlipCurrent;
 
         driveMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        config.driveConfig = Phoenix6ConfigUtility.getConfig(driveMotorConfig);
+        config.driveConfig = Phoenix6ConfigUtility.getMotorConfig(driveMotorConfig);
       } else {
         TalonFXSConfiguration driveMotorConfig = (TalonFXSConfiguration) frontLeft.DriveMotorInitialConfigs;
         driveMotorConfig.withSlot0(frontLeft.DriveMotorGains);
@@ -148,20 +150,23 @@ public class TunerSwerve extends SwerveDrive {
         driveMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
         driveMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        config.driveConfig = Phoenix6ConfigUtility.getConfig(driveMotorConfig);
+        config.driveConfig = Phoenix6ConfigUtility.getMotorConfig(driveMotorConfig);
       }
     } else {
       config.driveConfig = new MotorConfig();
     }
 
 
+    if (frontLeft.EncoderInitialConfigs instanceof CANcoderConfiguration) {}
+
+    config.gyroType = GyroType.Pidgeon2;
+    config.gyroId = swerveConstants.Pigeon2Id;
+    config.gyroConfig = Phoenix6ConfigUtility.getGyroConfig(swerveConstants.Pigeon2Configs);
+
     config.driveConfig.canbus = swerveConstants.CANBusName;
     config.steerConfig.canbus = swerveConstants.CANBusName;
+    config.encoderConfig.canbus = swerveConstants.CANBusName;
+    config.gyroConfig.canbus = swerveConstants.CANBusName;
     return config;
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

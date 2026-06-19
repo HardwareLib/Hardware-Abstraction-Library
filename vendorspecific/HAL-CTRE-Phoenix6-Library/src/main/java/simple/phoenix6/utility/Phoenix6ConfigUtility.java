@@ -4,7 +4,12 @@
 
 package simple.phoenix6.utility;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Rotations;
+
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.ParentConfiguration;
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
@@ -12,7 +17,11 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import simple.lib.encoder.util.EncoderConfig;
+import simple.lib.gyro.util.GyroConfig;
 import simple.lib.motor.util.MotorConfig;
 import simple.lib.motor.util.MotorConfig.FeedbackConfig.FeedbackSource;
 import simple.lib.motor.util.MotorConfig.OutputConfig.NeutralMode;
@@ -127,7 +136,7 @@ public class Phoenix6ConfigUtility {
         return configuration;
     }
 
-    public static MotorConfig getConfig(ParentConfiguration config) {
+    public static MotorConfig getMotorConfig(ParentConfiguration config) {
         MotorConfig outputConfig = new MotorConfig();
         if (config instanceof TalonFXConfiguration) {
             outputConfig.feedback.continousWrap = ((TalonFXConfiguration)config).ClosedLoopGeneral.ContinuousWrap;
@@ -219,6 +228,37 @@ public class Phoenix6ConfigUtility {
             outputConfig.voltageLimits.minVoltage = ((TalonFXSConfiguration)config).Voltage.PeakReverseVoltage;
         }
         return outputConfig;
+    }
+
+    public static CANcoderConfiguration getCaNcoderConfiguration(EncoderConfig config) {
+        CANcoderConfiguration configuration = new CANcoderConfiguration();
+        configuration.MagnetSensor.MagnetOffset = config.offset.in(Rotations);
+        configuration.MagnetSensor.SensorDirection = config.inverted ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
+        configuration.FutureProofConfigs = true;
+        return configuration;
+    }
+
+    public static EncoderConfig getEncoderConfig(CANcoderConfiguration config) {
+        EncoderConfig configuration = new EncoderConfig();
+        configuration.inverted = config.MagnetSensor.SensorDirection == SensorDirectionValue.Clockwise_Positive;
+        configuration.offset = Rotations.of(config.MagnetSensor.MagnetOffset);
+        return configuration;
+    }
+
+    public static Pigeon2Configuration getPigeon2Configuration(GyroConfig config) {
+        Pigeon2Configuration configuration = new Pigeon2Configuration();
+        configuration.Pigeon2Features.DisableNoMotionCalibration = !config.calibrationWhileStill;
+        configuration.MountPose.MountPosePitch = config.mountOrientation.getMeasureY().in(Degrees);
+        configuration.MountPose.MountPoseRoll = config.mountOrientation.getMeasureX().in(Degrees);
+        configuration.MountPose.MountPoseYaw = config.mountOrientation.getMeasureZ().in(Degrees);
+        return configuration;
+    }
+
+    public static GyroConfig getGyroConfig(Pigeon2Configuration config) {
+        GyroConfig configuration = new GyroConfig();
+        configuration.calibrationWhileStill = !config.Pigeon2Features.DisableNoMotionCalibration;
+        configuration.mountOrientation = new Rotation3d(Degrees.of(config.MountPose.MountPoseRoll), Degrees.of(config.MountPose.MountPosePitch), Degrees.of(config.MountPose.MountPoseYaw));
+        return configuration;
     }
 
     public static OutputDirection getDirectionFromPhoenix(InvertedValue value) {
