@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -57,7 +58,7 @@ public class TalonFXInterface implements MotorInterface {
     private final MotionMagicVelocityVoltage profiledVelocity = new MotionMagicVelocityVoltage(RadiansPerSecond.zero());
 
     public TalonFXInterface(int id, MotorConfig config) {
-        talon = new TalonFX(id);
+        talon = new TalonFX(id,new CANBus(config.canbus));
         TalonFXConfiguration motorConfig = Phoenix6ConfigUtility.getTalonFXConfig(config);
         PhoenixUtil.tryUntilOkay(() -> talon.getConfigurator().apply(motorConfig), 5);
 

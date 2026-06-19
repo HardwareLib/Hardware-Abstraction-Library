@@ -11,6 +11,10 @@ public class EncoderConfig {
     public double SensorToMechanismRatio = 1.0;
     public boolean inverted = false;
     /**
+     * Specifies the CANBUs only supported for CTRE CANCoders
+     */
+    public String canbus = "";
+    /**
      * Only used for PWM encoders if you are not using PWM encoders you don't need to set this setting.
      */
     public AngleUnit defaultUnit = Rotations;

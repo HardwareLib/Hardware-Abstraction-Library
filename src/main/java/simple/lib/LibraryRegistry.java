@@ -18,26 +18,26 @@ public class LibraryRegistry {
             LibraryType.Motor, Map.of(
                 "TalonFX", "simple.phoenix6.hardware.TalonFXInterface",
                 "TalonFXS", "simple.phoenix6.hardware.TalonFXSInterface",
-                "TalonSRX", "simple.phoenix5.hardware.TalonSRXInterface",
-                "SparkMax", "simple.revrobotics.hardware.SparkMaxInterface",
-                "SparkFlex", "simple.revrobotics.hardware.SparkFlexInterface",
-                "Nitrate", "simple.reduxrobotics.hardware.NitrateInterface",
-                "Nova", "simple.thrifty.hardware.NovaInterface",
+                "TalonSRX", "simple.phoenix5.hardware.TalonSRXInterface", // TODO: Make this
+                "SparkMax", "simple.revrobotics.hardware.SparkMaxInterface", // TODO: Make this
+                "SparkFlex", "simple.revrobotics.hardware.SparkFlexInterface", // TODO: Make this
+                "Nitrate", "simple.reduxrobotics.hardware.NitrateInterface", // TODO: Make this
+                "Nova", "simple.thrifty.hardware.NovaInterface", // TODO: Make this
                 "Sim", "simple.lib.template.hardwareInterface.SimMotor"
             ),
             LibraryType.Encoder, Map.of(
-                "CANCoder", "simple.phoenix6.hardware.CANCoder",
-                "Helium", "simple.reduxrobotics.hardware.CANAndMag",
-                "CANAndMag", "simple.reduxrobotics.hardware.CANAndMag",
-                "PWM", "simple.lib.template.hardwareInterface.PWMEncoder",
-                "Quadrature", "simple.lib.template.hardwareInterface.QuadratureEncoder"
+                "CANCoder", "simple.phoenix6.hardware.CANCoder", // TODO: Make this
+                "Helium", "simple.reduxrobotics.hardware.CANAndMag", // TODO: Make this
+                "CANAndMag", "simple.reduxrobotics.hardware.CANAndMag", // Kept as a nickname for CANAndMag
+                "PWM", "simple.lib.template.hardwareInterface.PWMEncoder", // TODO: Make this
+                "Quadrature", "simple.lib.template.hardwareInterface.QuadratureEncoder" // TODO: Make this
             ),
             LibraryType.Gyro, Map.of(
-                    "Pidgeon2", "simple.phoenix6.hardware.Pidgeon2",
-                    "CanAndGyro", "simple.reduxrobotics.hardware.CanAndGyro",
-                    "Boron", "simple.reduxrobotics.hardware.CanAndGyro",
-                    "NavX3", "simple.studica_can.hardware.navx3",
-                    "NavX_MXP",  "simple.studica_mxp.hardware.navx_mxp"
+                    "Pidgeon2", "simple.phoenix6.hardware.Pidgeon2", // TODO: Make this
+                    "CanAndGyro", "simple.reduxrobotics.hardware.CanAndGyro", // TODO: Make this
+                    "Boron", "simple.reduxrobotics.hardware.CanAndGyro",  // Kept as a nickname for CANAndGyro
+                    "NavX3", "simple.studica_can.hardware.navx3", // TODO: Make this
+                    "NavX_MXP",  "simple.studica_mxp.hardware.navx_mxp" // TODO: Make this
             ));
 
     public static String getOverride(LibraryType type, String interfaceName) {

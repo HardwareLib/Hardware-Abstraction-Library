@@ -8,6 +8,8 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Rotations;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
@@ -15,8 +17,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import simple.lib.mechanism.swerve.SwerveDrive;
 import simple.lib.mechanism.swerve.util.SwerveDriveConfig;
 import simple.lib.motor.Motor.MotorController;
+import simple.lib.motor.util.MotorConfig;
 import simple.lib.motor.util.MotorConfig.FeedbackConfig.FeedbackSource;
 import simple.lib.motor.util.MotorConfig.OutputConfig.OutputDirection;
+import simple.phoenix6.utility.Phoenix6ConfigUtility;
 
 public class TunerSwerve extends SwerveDrive {
   /** Creates a new TunerSwerve. */
@@ -126,11 +130,33 @@ public class TunerSwerve extends SwerveDrive {
     config.backLeftConfig.wheelDiameter = Meters.of(backLeft.WheelRadius*2);
     config.backRightConfig.wheelDiameter = Meters.of(backRight.WheelRadius*2);
 
-    TalonFXConfiguration driveMotorConfig = (TalonFXConfiguration) frontLeft.DriveMotorInitialConfigs;
-    driveMotorConfig.withSlot0(frontLeft.DriveMotorGains);
-    driveMotorConfig.CurrentLimits.StatorCurrentLimit = frontLeft.SlipCurrent;
-    driveMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    if (frontLeft.DriveMotorInitialConfigs instanceof TalonFXConfiguration || frontLeft.DriveMotorInitialConfigs instanceof TalonFXSConfiguration) {
+      if (frontLeft.DriveMotorInitialConfigs instanceof TalonFXConfiguration) {
+        TalonFXConfiguration driveMotorConfig = (TalonFXConfiguration) frontLeft.DriveMotorInitialConfigs;
+        driveMotorConfig.withSlot0(frontLeft.DriveMotorGains);
+        driveMotorConfig.CurrentLimits.StatorCurrentLimit = frontLeft.SlipCurrent;
+        driveMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+        driveMotorConfig.TorqueCurrent.PeakForwardTorqueCurrent = frontLeft.SlipCurrent;
+        driveMotorConfig.TorqueCurrent.PeakReverseTorqueCurrent = frontLeft.SlipCurrent;
 
+        driveMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.driveConfig = Phoenix6ConfigUtility.getConfig(driveMotorConfig);
+      } else {
+        TalonFXSConfiguration driveMotorConfig = (TalonFXSConfiguration) frontLeft.DriveMotorInitialConfigs;
+        driveMotorConfig.withSlot0(frontLeft.DriveMotorGains);
+        driveMotorConfig.CurrentLimits.StatorCurrentLimit = frontLeft.SlipCurrent;
+        driveMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+
+        driveMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        config.driveConfig = Phoenix6ConfigUtility.getConfig(driveMotorConfig);
+      }
+    } else {
+      config.driveConfig = new MotorConfig();
+    }
+
+
+    config.driveConfig.canbus = swerveConstants.CANBusName;
+    config.steerConfig.canbus = swerveConstants.CANBusName;
     return config;
   }
 
