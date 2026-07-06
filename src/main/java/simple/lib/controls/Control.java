@@ -3,6 +3,7 @@ package simple.lib.controls;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 
 import static edu.wpi.first.units.Units.*;
@@ -18,6 +19,9 @@ public class Control {
     }
 
     public double output = 0.0;
+
+    public boolean useCurrentControl = false;
+    public Current desiredCurrent = Amps.zero();
 
     public Angle position = Radians.zero();
     public AngularVelocity velocity = RadiansPerSecond.zero();
@@ -104,11 +108,23 @@ public class Control {
     public Control withVoltage(Voltage output) {
         this.output = output.in(Volts);
         this.type = ControlType.Voltage;
+        this.useCurrentControl = false;
         return this;
     }
 
     public Control withSlot(int slot) {
         this.slot = slot;
+        return this;
+    }
+
+    public Control withCurrent(Current current) {
+        this.desiredCurrent = current;
+        this.useCurrentControl = true;
+        return this;
+    } 
+
+    public Control withCurrentControl(boolean enabled) {
+        this.useCurrentControl = enabled;
         return this;
     }
 }

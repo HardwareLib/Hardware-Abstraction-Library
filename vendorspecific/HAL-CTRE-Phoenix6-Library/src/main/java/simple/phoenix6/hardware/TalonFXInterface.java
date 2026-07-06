@@ -8,7 +8,6 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -74,8 +73,10 @@ public class TalonFXInterface implements MotorInterface {
 
         temperature = talon.getDeviceTemp();
 
+        if (config.updateFrequency > 50.0) {}
+
         PhoenixUtil.tryUntilOkay(() -> StatusSignal.setUpdateFrequencyForAll(50, supply,stator,torque,appliedVoltage, temperature), 5);
-        PhoenixUtil.tryUntilOkay(() -> StatusSignal.setUpdateFrequencyForAll(50, position,velocity,acceleration), 5);
+        PhoenixUtil.tryUntilOkay(() -> StatusSignal.setUpdateFrequencyForAll(config.updateFrequency, position,velocity,acceleration), 5);
         PhoenixUtil.tryUntilOkay(() -> talon.optimizeBusUtilization(), 5);
     }
 

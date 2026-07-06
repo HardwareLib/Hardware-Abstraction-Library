@@ -19,6 +19,7 @@ public class SimMotor implements MotorInterface {
     private final PIDController pid;
     private final SimpleMotorFeedforward ff;
     private final ProfiledPIDController profiledPid;
+    private final PIDController currentController = new PIDController(2.0, 0, 0);
     private Control activeControl = null;
 
     private MotorConfig config;
@@ -31,19 +32,20 @@ public class SimMotor implements MotorInterface {
         ff = new SimpleMotorFeedforward(config.PID_Config.slot0.kS,config.PID_Config.slot0.kV,config.PID_Config.slot0.kA);
         profiledPid = new ProfiledPIDController(config.PID_Config.slot0.kP,config.PID_Config.slot0.kI,config.PID_Config.slot0.kD, new TrapezoidProfile.Constraints(config.PID_Config.motionProfile.maxVelocity,config.PID_Config.motionProfile.maxAcceleration),0.02);
         this.config = config;
-        sim = new DCMotorSim(LinearSystemId.createDCMotorSystem(motor,config.simMoi,config.feedback.sensorToMechanismRatio),motor);
+        sim = new DCMotorSim(LinearSystemId.createDCMotorSystem(motor,config.sim.moi,config.feedback.sensorToMechanismRatio),motor);
     }
 
     @Override
     public void periodic() {
         double kG;
+        double voltageInput = 0.0;
         if (this.activeControl != null) {
             switch (activeControl.type) {
                 case Voltage:
-                    sim.setInputVoltage(MathUtil.clamp(activeControl.output,-12.0,12.0));
+                    voltageInput = activeControl.output;
                     break;
                 case DutyCycle:
-                    sim.setInputVoltage(MathUtil.clamp(activeControl.output,-1.0,1.0)*12.0);
+                    voltageInput = MathUtil.clamp(activeControl.output,-1.0,1.0)*12.0;
                     break;
                 case Position:
                     kG = currentSlot.kG;
@@ -57,7 +59,7 @@ public class SimMotor implements MotorInterface {
                         default:
                             break;
                     }
-                    sim.setInputVoltage(pid.calculate(sim.getAngularPositionRad()) + ff.calculate(0.0) + kG);
+                    voltageInput = pid.calculate(sim.getAngularPositionRad()) + ff.calculate(0.0) + kG;
                     break;
                 case Velocity:
                     kG = currentSlot.kG;
@@ -71,7 +73,7 @@ public class SimMotor implements MotorInterface {
                         default:
                             break;
                     }
-                    sim.setInputVoltage(pid.calculate(sim.getAngularVelocityRadPerSec()) + ff.calculate(activeControl.output) + kG);
+                    voltageInput = pid.calculate(sim.getAngularVelocityRadPerSec()) + ff.calculate(activeControl.output) + kG;
                     break;
                 case VelocityProfiled:
                     break;
@@ -79,6 +81,10 @@ public class SimMotor implements MotorInterface {
                     break;
             }
         }
+        if (sim.getCurrentDrawAmps() > config.currentLimits.maxSupply && config.sim.SimulateCurrentLimit) {
+            voltageInput += currentController.calculate(sim.getCurrentDrawAmps(),config.currentLimits.maxSupply);
+        }
+        sim.setInputVoltage(MathUtil.clamp(voltageInput,config.voltageLimits.minVoltage,config.voltageLimits.maxVoltage));
         sim.update(0.020);
     }
 

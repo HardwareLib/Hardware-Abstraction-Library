@@ -118,5 +118,9 @@ public class MotorConfig {
         public double motorToMechanismRatio =  0.0; // If used on an internal encoder this does effectively the same as sensorToMechanism Ration
     }
     public FeedbackConfig feedback = new FeedbackConfig();
-    public double simMoi = 0.0035;
+    public static class SimConfig {
+        public double moi = 0.0035;
+        public boolean SimulateCurrentLimit = false;
+    }
+    public SimConfig sim = new SimConfig();
 }

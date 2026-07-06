@@ -191,7 +191,7 @@ public class TunerSwerve extends SwerveDrive {
       config.encoderConfig = Phoenix6ConfigUtility.getEncoderConfig((CANcoderConfiguration) frontLeft.EncoderInitialConfigs);
     }
 
-    config.gyroType = GyroType.Pidgeon2;
+    config.gyroType = GyroType.Pigeon2;
     config.gyroId = swerveConstants.Pigeon2Id;
     config.gyroConfig = Phoenix6ConfigUtility.getGyroConfig(swerveConstants.Pigeon2Configs);
 

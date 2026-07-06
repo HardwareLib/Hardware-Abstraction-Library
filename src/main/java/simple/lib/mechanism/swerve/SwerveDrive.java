@@ -11,10 +11,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import simple.lib.gyro.Gyro;
+import simple.lib.logging.data.SwerveDriveData;
 import simple.lib.mechanism.swerve.util.SwerveDriveConfig;
 import simple.lib.motor.Motor.MotorController;
 import simple.lib.motor.util.MotorConfig;
@@ -22,7 +22,6 @@ import simple.lib.motor.util.MotorConfig;
 public class SwerveDrive extends SubsystemBase {
     private SwerveDriveConfig config;
     private SwerveModule[] modules = new SwerveModule[4];
-
     private SwerveDriveKinematics kinematics;
     private SwerveDrivePoseEstimator poseEstimator;
     private Gyro gyro;
@@ -30,6 +29,7 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModulePosition[] previousPositions;
     private SwerveModulePosition[] deltas;
     private SwerveModuleState[] intendedStates;
+    private SwerveDriveData data = new SwerveDriveData();
 
     public SwerveDrive(SwerveDriveConfig config) {
         this.config = config;
@@ -57,15 +57,14 @@ public class SwerveDrive extends SubsystemBase {
 
     @Override
     public void periodic() {
+        getData();
         SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
         for (int i=0; i<positions.length; i++) {
             positions[i] = modules[i].getPosition();
-            SmartDashboard.putBoolean("Testing/is new data", !positions[i].equals(previousPositions[i]));
             deltas[i] = new SwerveModulePosition(positions[i].distanceMeters - previousPositions[i].distanceMeters, positions[i].angle);
             previousPositions[i] = positions[i];
         }
         internalEstimatedHeading = internalEstimatedHeading.plus(Rotation2d.fromRadians(kinematics.toTwist2d(deltas).dtheta));
-        SmartDashboard.putNumber("Testing/Random Number",deltas[0].angle.getRadians());
         poseEstimator.update(config.gyroType != null ? gyro.getHeading() : internalEstimatedHeading, positions);
     }
 
@@ -132,5 +131,17 @@ public class SwerveDrive extends SubsystemBase {
             return new Pose3d(new Pose3d(poseEstimator.getEstimatedPosition()).getTranslation(),gyro.getOrientation());
         }
         return new Pose3d(poseEstimator.getEstimatedPosition());
+    }
+
+    public SwerveDriveData getData() {
+        for (int i=0; i<modules.length; i++) {
+            modules[i].updateData(data.modules[i]);
+        }
+        data.gyro = gyro.getData();
+        data.pose.update(getPose());
+        data.measuredStates.update(getStates());
+        data.targetStates.update(getIntendedStates());
+        data.positions.update(previousPositions);
+        return data;
     }
 }

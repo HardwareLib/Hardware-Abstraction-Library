@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("rawtypes")
-public class SwerveData extends BaseData {
+public class SwerveDriveData extends BaseData {
     public final SwerveModuleData[] modules = new SwerveModuleData[]{new SwerveModuleData(),new SwerveModuleData(),new SwerveModuleData(),new SwerveModuleData()};
-    public final GyroData gyro = new GyroData();
+    public GyroData gyro = new GyroData();
     public final StructEntry<Pose2d> pose = new StructEntry<Pose2d>(Pose2d.kZero);
     public final StructArrayEntry<SwerveModuleState> measuredStates = new StructArrayEntry<>( new SwerveModuleState[]{
             new SwerveModuleState(),

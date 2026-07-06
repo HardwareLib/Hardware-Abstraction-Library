@@ -26,6 +26,9 @@ public class MotorData extends BaseData {
     public final UnitEntry<AngularAccelerationUnit> acceleration = new UnitEntry<>(RotationsPerSecondPerSecond.zero());
     public final DoubleEntry output = new DoubleEntry(0.0);
 
+    public double[] positionQueue; // DO NOT USE THIS IN LOGGING 
+    public double[] timestampQueue;
+
     @Override
     public Map<String, Entry> getData(String prefix) {
         return Map.ofEntries(

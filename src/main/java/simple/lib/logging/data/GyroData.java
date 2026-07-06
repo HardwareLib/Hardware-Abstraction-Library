@@ -16,6 +16,8 @@ public class GyroData extends BaseData {
     public final StructEntry<Rotation2d> headingChange = new StructEntry<Rotation2d>(Rotation2d.kZero);
     public final StructEntry<Rotation3d> orientation = new StructEntry<Rotation3d>(Rotation3d.kZero);
     public final StructEntry<Rotation3d> angularVelocity = new StructEntry<Rotation3d>(Rotation3d.kZero);
+    public double[] timestampQueue; // DO NOT USE THIS IN LOGGING
+    public Rotation2d[] headingQueue;
 
     @Override
     public Map<String, Entry> getData(String prefix) {

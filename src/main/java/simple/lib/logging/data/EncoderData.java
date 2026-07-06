@@ -18,6 +18,8 @@ public class EncoderData extends BaseData {
     public final UnitEntry<AngleUnit> position = new UnitEntry<>(Rotations.zero());
     public final UnitEntry<AngularVelocityUnit> velocity = new UnitEntry<>(RotationsPerSecond.zero());
 
+    public double[] positionQueue; // DO NOT USE THIS IN LOGGING
+    public double[] timestampQueue;
     
     @Override
     public Map<String, Entry> getData(String prefix) {

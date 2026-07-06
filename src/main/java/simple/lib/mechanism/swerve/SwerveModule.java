@@ -7,11 +7,16 @@ import simple.lib.controls.PositionControl;
 import simple.lib.controls.VelocityControl;
 import simple.lib.encoder.Encoder;
 import simple.lib.encoder.util.EncoderConfig;
+import simple.lib.logging.data.SwerveModuleData;
 import simple.lib.mechanism.swerve.util.SwerveDriveConfig;
 import simple.lib.motor.Motor;
 import simple.lib.motor.util.MotorConfig;
 
 import static edu.wpi.first.units.Units.*;
+
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class SwerveModule {
     private Motor drive;
@@ -60,5 +65,21 @@ public class SwerveModule {
 
     public Rotation2d getModuleHeading() {
         return Rotation2d.fromRadians(steer.getData().position.getValue().in(Radians));
+    }
+
+    Queue<Rotation2d> steerConversion = new ConcurrentLinkedQueue<>();
+    public void updateData(SwerveModuleData data) {
+        data.drive = drive.getData();
+        data.steer = steer.getData();
+        if (encoder != null) {
+            data.encoder = encoder.getData();
+        }
+        data.drivePositionQueue = data.drive.positionQueue;
+        data.timestampQueue = data.drive.timestampQueue;
+        for (double position : data.steer.positionQueue) {
+            steerConversion.add(Rotation2d.fromRotations(position));
+        }
+        data.steerPositionQueue = steerConversion.toArray(new Rotation2d[steerConversion.size()]);
+        steerConversion.clear();
     }
 }

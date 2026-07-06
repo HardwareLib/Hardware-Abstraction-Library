@@ -32,6 +32,8 @@ public class ExampleSubsystem extends SubsystemBase {
     config.feedback.sensorToMechanismRatio = 5.0;
     config.feedback.feedbackSource = FeedbackSource.InternalEncoder;
     config.PID_Config.gravityCompensationType = GravityCompensationType.ELEVATOR_STATIC;
+    config.currentLimits.maxSupply = 40;
+    config.sim.SimulateCurrentLimit = true;
     motor = new Motor(0, config, MotorController.Sim, DCMotor.getKrakenX60Foc(1));
   }
   
