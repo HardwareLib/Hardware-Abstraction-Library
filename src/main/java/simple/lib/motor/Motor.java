@@ -107,6 +107,16 @@ public class Motor implements HardwareInterface {
         HardwareRunner.getInstance().registerInterface(this);
     }
 
+    public Motor(int id, MotorConfig config, MotorInterface i_motor) {
+        if (config.feedback.motorToMechanismRatio == 0.0) {
+            config.feedback.motorToMechanismRatio = config.feedback.sensorToMechanismRatio;
+        }
+        this.id = id;
+        motorInterface = i_motor;
+        configure(config);
+        HardwareRunner.getInstance().registerInterface(this);
+    }
+
     /**
      * Gets the Data from the motor controller in the form of a motor data object that you can use for logging
      * @return The Data from the Motor Controller */
