@@ -13,38 +13,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ExampleSubsystem;
-import simple.lib.mechanism.swerve.SwerveDrive;
-import simple.lib.mechanism.swerve.util.SwerveDriveConfig;
 import simple.lib.motor.Motor.MotorController;
 
 public class RobotContainer {
   ExampleSubsystem subsystem;
-  SwerveDrive drive;
   CommandXboxController controller = new CommandXboxController(0);
   public RobotContainer() {
     subsystem = new ExampleSubsystem();
-    SwerveDriveConfig config = new SwerveDriveConfig();
-    config.driveGearing = 4.94;
-    config.steerGearing = 25.9;
-    config.driveController = MotorController.Sim;
-    config.steerController = MotorController.Sim;
-    config.driveConfig.PID_Config.slot0.kP = 5.0;
-    config.steerConfig.PID_Config.slot0.kP = 8.0;
-    config.trackWidth = Inches.of(24);
-    config.trackLength = Inches.of(24);
-    config.setModulePositions();
-    drive = new SwerveDrive(config);
     configureBindings();
   }
  
   private void configureBindings() {
-    drive.setDefaultCommand(drive.drive(() -> {
-      return new ChassisSpeeds(5.0 * controller.getLeftX(), 5.0 * controller.getLeftY(), 5.0 * controller.getRightX());
-    }, controller.x()));
-    controller.leftTrigger().whileTrue(subsystem.setVelocity(RadiansPerSecond.of(-5)));
-    controller.rightTrigger().whileTrue(subsystem.setVelocity(RadiansPerSecond.of(5)));
-    controller.a().onTrue(subsystem.setPosition(Radians.of(-5)));
-    controller.b().onTrue(subsystem.setPosition(Radians.of(5)));
+    
   }
 
   public Command getAutonomousCommand() {
